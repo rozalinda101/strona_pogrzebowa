@@ -100,7 +100,7 @@
         </div>
     </header>
 
-    <!-- 2. ROZCIĄGNIĘTE ZDJĘCIE OKŁADKOWE U GÓRY (zonkile.png z folderu głównego) -->
+    <!-- 2. ROZCIĄGNIĘTE ZDJĘCIE OKŁADKOWE U GÓRY -->
     <div class="w-full h-[45vh] sm:h-[60vh] lg:h-[68vh] overflow-hidden bg-travertine border-b border-travertine">
         <img 
             src="../zonkile.png" 
@@ -194,6 +194,67 @@
         </div>
     </article>
 
+    <!-- 4. SEKCJA KOMENTARZY POD PUBLIKACJĄ -->
+    <section id="komentarze" class="py-16 sm:py-24 px-6 sm:px-10 lg:px-16 bg-travertine/20 border-b border-travertine">
+        <div class="max-w-3xl mx-auto">
+            
+            <div class="mb-12">
+                <p class="text-xs uppercase tracking-widestCustom text-brass mb-3">
+                    Dyskusja i Refleksje
+                </p>
+                <h2 class="font-serif text-3xl sm:text-4xl font-normal text-charcoal mb-3">
+                    Komentarze do publikacji
+                </h2>
+                <p class="text-sm font-light text-graphite">
+                    Podziel się swoją refleksją na temat tekstu. Twój komentarz pojawi się poniżej.
+                </p>
+            </div>
+
+            <!-- Lista komentarzy -->
+            <div id="comments-list" class="space-y-6 mb-14">
+                <!-- Komentarze renderowane dynamicznie -->
+            </div>
+
+            <!-- Formularz dodawania komentarza -->
+            <div class="bg-alabaster border border-travertine p-8 sm:p-10 rounded-sm">
+                <h3 class="font-serif text-2xl text-charcoal mb-6">
+                    Dodaj komentarz
+                </h3>
+
+                <form id="comment-form" class="space-y-6">
+                    <div>
+                        <label class="block text-xs uppercase tracking-widestCustom text-graphite mb-2">
+                            Imię, inicjały lub podpis
+                        </label>
+                        <input type="text" id="comment-author" required placeholder="np. Anna M." class="w-full bg-alabaster border border-travertine px-4 py-3 text-sm text-charcoal focus:outline-none focus:border-brass rounded-sm">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs uppercase tracking-widestCustom text-graphite mb-2">
+                            Treść komentarza
+                        </label>
+                        <textarea id="comment-text" rows="4" required placeholder="Napisz swój komentarz..." class="w-full bg-alabaster border border-travertine px-4 py-3 text-sm text-charcoal focus:outline-none focus:border-brass rounded-sm"></textarea>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <span class="text-[11px] font-light text-graphite/70 italic">
+                            Zapis trwały aktywny
+                        </span>
+                        <button type="submit" class="bg-charcoal text-alabaster text-xs uppercase tracking-widestCustom px-8 py-4 rounded-sm hover:bg-brass transition-colors duration-500 cursor-pointer">
+                            Opublikuj komentarz
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Komunikat po dodaniu komentarza -->
+                <div id="comment-toast" class="hidden mt-6 p-4 bg-travertine/40 border border-brass/60 text-xs text-charcoal rounded-sm">
+                    Dziękujemy. Twój komentarz został opublikowany.
+                </div>
+            </div>
+
+        </div>
+    </section>
+
     <!-- STOPKA (FOOTER) -->
     <footer class="bg-charcoal text-alabaster/80 py-16 px-6 sm:px-10 lg:px-16">
         <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
@@ -204,11 +265,159 @@
                 </span>
             </div>
             <div class="text-xs font-light text-alabaster/60 text-center sm:text-right">
-                <p>&copy; 2026 requiem.aeternam — Projekt studencki (Psychologia Społeczna Stosowana).</p>
+                <p>&copy; 2026 requiem.aeternam — Projekt studencki (Psychologia Społeczna Stosowana / Design Thinking).</p>
                 <p class="mt-1">Polityka prywatności i poufności (NDA)</p>
             </div>
         </div>
     </footer>
+
+    <!-- SKRYPT KOMENTARZY (Firestore + localStorage fallback) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { initializeFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Unikalny identyfikator tego artykułu (zmień go, jeśli skopiujesz plik dla kolejnego artykułu)
+        const articleId = 'architektura-pamieci';
+        const storageKey = `ra_comments_${articleId}`;
+
+        let commentsState = [];
+        let useFirestore = false;
+        let db = null;
+        let currentUser = null;
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'requiem-aeternam-app';
+
+        function escapeHTML(str) {
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
+        function renderComments() {
+            const list = document.getElementById('comments-list');
+            if (!list) return;
+
+            if (commentsState.length === 0) {
+                list.innerHTML = `
+                    <p class="text-sm font-light italic text-graphite/70 border-l border-travertine pl-4">
+                        Brak komentarzy. Bądź pierwszą osobą, która podzieli się refleksją.
+                    </p>
+                `;
+                return;
+            }
+
+            list.innerHTML = commentsState.map(com => `
+                <div class="bg-alabaster border border-travertine p-6 sm:p-8 rounded-sm transition-colors duration-500 hover:border-brass/50">
+                    <div class="flex items-center justify-between gap-4 mb-3 pb-3 border-b border-travertine/70">
+                        <span class="text-xs uppercase tracking-widestCustom text-charcoal font-medium">
+                            ${escapeHTML(com.author)}
+                        </span>
+                        <span class="text-[11px] font-light text-graphite/60">
+                            ${escapeHTML(com.date)}
+                        </span>
+                    </div>
+                    <p class="text-sm sm:text-base font-light leading-relaxed text-graphite whitespace-pre-line">
+                        ${escapeHTML(com.text)}
+                    </p>
+                </div>
+            `).join('');
+        }
+
+        function loadFromLocalStorage() {
+            try {
+                commentsState = JSON.parse(localStorage.getItem(storageKey) || '[]');
+            } catch (e) {
+                commentsState = [];
+            }
+            renderComments();
+        }
+
+        async function initStorage() {
+            renderComments();
+
+            const firebaseConfig = {
+                apiKey: "AIzaSyD4wmDbYRbC_L3sxhbJtsLTdTFPvlTrM5E",
+                authDomain: "zaklad-pogrzebowy.firebaseapp.com",
+                databaseURL: "https://zaklad-pogrzebowy-default-rtdb.europe-west1.firebasedatabase.app",
+                projectId: "zaklad-pogrzebowy",
+                storageBucket: "zaklad-pogrzebowy.firebasestorage.app",
+                messagingSenderId: "304755106748",
+                appId: "1:304755106748:web:31567f501b964c036601b9",
+                measurementId: "G-CCCPER6KML"
+            };
+
+            try {
+                const app = initializeApp(firebaseConfig);
+                const auth = getAuth(app);
+                db = initializeFirestore(app, {
+                    experimentalForceLongPolling: true
+                });
+
+                await signInAnonymously(auth);
+                currentUser = auth.currentUser;
+
+                if (currentUser) {
+                    useFirestore = true;
+                    const commentsRef = collection(db, 'artifacts', appId, 'public', 'data', `comments_${articleId}`);
+                    onSnapshot(commentsRef, (snapshot) => {
+                        const cloudComments = [];
+                        snapshot.forEach(doc => cloudComments.push({ id: doc.id, ...doc.data() }));
+                        cloudComments.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+                        commentsState = cloudComments;
+                        renderComments();
+                    }, (err) => {
+                        console.warn("Firestore comments fallback:", err);
+                        loadFromLocalStorage();
+                    });
+                    return;
+                }
+            } catch (err) {
+                console.warn("Błąd połączenia z Firebase, przełączam na tryb lokalny:", err);
+            }
+
+            loadFromLocalStorage();
+        }
+
+        document.getElementById('comment-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const author = document.getElementById('comment-author').value.trim();
+            const text = document.getElementById('comment-text').value.trim();
+
+            if (!author || !text) return;
+
+            const newComment = {
+                author,
+                text,
+                date: new Date().toLocaleDateString('pl-PL', { day: 'numeric', month: 'long', year: 'numeric' }),
+                createdAt: Date.now()
+            };
+
+            let savedInCloud = false;
+            if (useFirestore && db && currentUser) {
+                try {
+                    await addDoc(collection(db, 'artifacts', appId, 'public', 'data', `comments_${articleId}`), newComment);
+                    savedInCloud = true;
+                } catch (err) {
+                    console.error("Błąd zapisu komentarza w Firestore:", err);
+                }
+            }
+
+            if (!savedInCloud) {
+                const savedComments = JSON.parse(localStorage.getItem(storageKey) || '[]');
+                savedComments.unshift(newComment);
+                localStorage.setItem(storageKey, JSON.stringify(savedComments));
+                commentsState = [newComment, ...commentsState];
+                renderComments();
+            }
+
+            e.target.reset();
+            const toast = document.getElementById('comment-toast');
+            toast.classList.remove('hidden');
+            setTimeout(() => toast.classList.add('hidden'), 5000);
+        });
+
+        initStorage();
+    </script>
 
 </body>
 </html>
