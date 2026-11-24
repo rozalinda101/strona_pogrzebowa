@@ -387,88 +387,65 @@
         </div>
     </section>
 
-    <!-- 5B. SEKCJA PUBLIKACJE (Dziennik Edytorialowy / Publikacje w stylu Quiet Luxury) -->
-    <section id="publikacje" class="py-24 sm:py-36 px-6 sm:px-10 lg:px-16 bg-travertine/20 border-b border-travertine">
-        <div class="max-w-6xl mx-auto fade-in-section">
-            
-            <div class="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
-                <div class="max-w-2xl">
-                    <p class="text-xs uppercase tracking-widestCustom text-brass mb-4" data-i18n="pub_eyebrow">
-                        Publikacje • @requiem.aeternam
-                    </p>
-                    <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-charcoal leading-tight mb-4" data-i18n="pub_title">
-                        Kultura pożegnania i estetyka ciszy
-                    </h2>
-                    <p class="text-graphite font-light leading-relaxed text-sm sm:text-base" data-i18n="pub_desc">
-                        Nasza przestrzeń komunikacji jest wolna od nekrologów i katalogowych ofert. Dzielimy się refleksją o sztuce godnego pożegnania, architekturze pamięci oraz kulisach naszej pracy pełnomocniczej.
-                    </p>
+   
+<!-- 5B. SEKCJA PUBLIKACJE -->
+<section id="publikacje" class="py-24 sm:py-36 px-6 sm:px-10 lg:px-16 bg-travertine/20 border-b border-travertine">
+
+    <div class="max-w-6xl mx-auto fade-in-section">
+
+        <div class="max-w-2xl mb-16">
+            <p class="text-xs uppercase tracking-widestCustom text-brass mb-4" data-i18n="pub_eyebrow">
+                Publikacje • @requiem.aeternam
+            </p>
+
+            <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-charcoal leading-tight mb-4" data-i18n="pub_title">
+                Kultura pożegnania i estetyka ciszy
+            </h2>
+
+            <p class="text-graphite font-light leading-relaxed text-sm sm:text-base" data-i18n="pub_desc">
+                Nasza przestrzeń komunikacji jest wolna od nekrologów i katalogowych ofert. Dzielimy się refleksją o sztuce godnego pożegnania, architekturze pamięci oraz kulisach naszej pracy pełnomocniczej.
+            </p>
+        </div>
+
+        <!-- Siatka publikacji -->
+        <div id="publications-grid" class="grid grid-cols-1 md:grid-cols-3 gap-10">
+
+            <!-- PUBLIKACJA 1 -->
+            <a href="publikacje/architektura-pamieci.html"
+               class="group block cursor-pointer">
+
+                <div class="overflow-hidden aspect-[4/3] bg-travertine mb-6">
+                    <img
+                        src="https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=900&q=80"
+                        alt="Naturalny kamień i minimalistyczna architektura"
+                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    >
                 </div>
 
-                <button onclick="togglePostForm()" class="self-start md:self-end inline-flex items-center gap-2.5 border border-charcoal text-charcoal text-xs uppercase tracking-widestCustom px-7 py-3.5 rounded-sm hover:bg-charcoal hover:text-alabaster transition-colors duration-500 cursor-pointer shrink-0">
-                    <span class="text-base leading-none">+</span>
-                    <span data-i18n="pub_add_btn">Dodaj nową publikację</span>
-                </button>
-            </div>
+                <p class="text-[10px] uppercase tracking-widestCustom text-brass mb-3">
+                    Kultura pamięci
+                </p>
 
-            <!-- Panel dodawania nowej publikacji (rozwijany) -->
-            <div id="post-form-container" class="hidden mb-16 bg-alabaster border border-brass/50 p-8 sm:p-10 rounded-sm shadow-sm">
-                <div class="flex items-center justify-between mb-6 pb-4 border-b border-travertine">
-                    <h3 class="font-serif text-2xl text-charcoal" data-i18n="pub_form_heading">Nowy wpis w dzienniku @requiem.aeternam</h3>
-                    <button onclick="togglePostForm()" class="text-graphite hover:text-charcoal text-xl leading-none cursor-pointer">&times;</button>
-                </div>
+                <h3 class="font-serif text-2xl text-charcoal leading-snug mb-3 group-hover:text-brass transition-colors duration-300">
+                    Architektura pamięci i estetyka ciszy
+                </h3>
 
-                <form id="new-post-form" class="space-y-6">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-xs uppercase tracking-widestCustom text-graphite mb-2" data-i18n="pub_label_title">Tytuł publikacji</label>
-                            <input type="text" id="post-title" required placeholder="np. Architektura spokoju i szlachetny detal" class="w-full bg-travertine/20 border border-travertine px-4 py-3 text-sm text-charcoal focus:outline-none focus:border-brass rounded-sm">
-                        </div>
-                        <div>
-                            <label class="block text-xs uppercase tracking-widestCustom text-graphite mb-2" data-i18n="pub_label_tag">Kategoria / Etykieta</label>
-                            <select id="post-category" class="w-full bg-travertine/20 border border-travertine px-4 py-3 text-sm text-charcoal focus:outline-none focus:border-brass rounded-sm">
-                                <option value="Pełnomocnictwo">Pełnomocnictwo</option>
-                                <option value="Florystyka i Detal">Florystyka i Detal</option>
-                                <option value="Kultura Pamięci">Kultura Pamięci</option>
-                                <option value="Dyskrecja i Etykieta">Dyskrecja i Etykieta</option>
-                            </select>
-                        </div>
-                    </div>
+                <p class="text-sm text-graphite font-light leading-relaxed mb-5">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. O sztuce tworzenia przestrzeni, w której każdy detal ma znaczenie.
+                </p>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-xs uppercase tracking-widestCustom text-graphite mb-2" data-i18n="pub_label_preset">Wybierz kadr w estetyce Quiet Luxury</label>
-                            <select id="post-preset-img" class="w-full bg-travertine/20 border border-travertine px-4 py-3 text-sm text-charcoal focus:outline-none focus:border-brass rounded-sm">
-                                <option value="https://images.unsplash.com/photo-1508610048659-a06b669e3321?auto=format&fit=crop&w=900&q=80">Białe lilie i szlachetna florystyka</option>
-                                <option value="https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=900&q=80">Minimalistyczna przestrzeń i światło</option>
-                                <option value="https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=900&q=80">Płócienny scenariusz i odręczne pismo</option>
-                                <option value="https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=900&q=80">Kamień, trawertyn i naturalna forma</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-xs uppercase tracking-widestCustom text-graphite mb-2" data-i18n="pub_label_url">Lub własny link do zdjęcia (opcjonalnie)</label>
-                            <input type="url" id="post-custom-img" placeholder="https://..." class="w-full bg-travertine/20 border border-travertine px-4 py-3 text-sm text-charcoal focus:outline-none focus:border-brass rounded-sm">
-                        </div>
-                    </div>
+                <span class="inline-flex items-center gap-3 text-[10px] uppercase tracking-widestCustom text-charcoal">
+                    Czytaj artykuł
+                    <span class="transition-transform duration-300 group-hover:translate-x-2">→</span>
+                </span>
 
-                    <div>
-                        <label class="block text-xs uppercase tracking-widestCustom text-graphite mb-2" data-i18n="pub_label_body">Treść wpisu</label>
-                        <textarea id="post-content" rows="4" required placeholder="Wpisz treść publikacji zgodną z tonem komunikacji marki..." class="w-full bg-travertine/20 border border-travertine px-4 py-3 text-sm text-charcoal focus:outline-none focus:border-brass rounded-sm"></textarea>
-                    </div>
-
-                    <div class="flex items-center justify-end gap-4">
-                        <button type="button" onclick="togglePostForm()" class="text-xs uppercase tracking-widestCustom text-graphite hover:text-charcoal px-5 py-3 cursor-pointer" data-i18n="btn_cancel">Anuluj</button>
-                        <button type="submit" class="bg-charcoal text-alabaster text-xs uppercase tracking-widestCustom px-8 py-3.5 rounded-sm hover:bg-brass transition-colors cursor-pointer" data-i18n="pub_submit">Opublikuj wpis</button>
-                    </div>
-                </form>
-            </div>
-
-            <!-- Siatka publikacji (3 kolumny) -->
-            <div id="publications-grid" class="grid grid-cols-1 md:grid-cols-3 gap-10">
-                <!-- Wpisy renderowane dynamicznie przez JavaScript -->
-            </div>
+            </a>
 
         </div>
-    </section>
+
+    </div>
+</section>
+
 
     <!-- 5C. ZAKŁADKA OPINIE (Rekomendacje Rodzin + Realna możliwość komentowania) -->
     <section id="opinie" class="py-24 sm:py-36 px-6 sm:px-10 lg:px-16 border-b border-travertine">
