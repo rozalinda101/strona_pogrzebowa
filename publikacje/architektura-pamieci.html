@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pl" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Architektura pamięci i estetyka ciszy | requiem.aeternam</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Cormorant Garamond oraz Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Plus+Jakarta+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <!-- Konfiguracja Tailwind spójna ze stroną główną -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        alabaster: '#F7F5F0',
+                        travertine: '#EAE5DC',
+                        charcoal: '#232220',
+                        graphite: '#4A4843',
+                        brass: '#9E896A',
+                        brassLight: '#B8A588',
+                    },
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    letterSpacing: {
+                        widestCustom: '0.2em',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #F7F5F0;
+            color: #232220;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .nav-link {
+            position: relative;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: -4px;
+            left: 0;
+            background-color: #9E896A;
+            transition: width 0.35s ease;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="selection:bg-brass/20 selection:text-charcoal overflow-x-hidden">
+
+    <!-- 0. SUBTELNY PASEK INFORMACYJNY -->
+    <div class="bg-charcoal text-alabaster/90 text-[11px] sm:text-xs tracking-wide py-2.5 px-4 text-center border-b border-brass/30 relative z-50">
+        <p>
+            Projekt studencki zrealizowany w ramach zajęć z Psychologii Społecznej Stosowanej. Marka <span class="font-serif italic text-brassLight">requiem.aeternam</span> jest konceptem edukacyjnym.
+        </p>
+    </div>
+
+    <!-- 1. MINIMALISTYCZNA NAWIGACJA (Z linkami powrotnymi do strony głównej) -->
+    <header class="sticky top-0 left-0 right-0 z-40 transition-all duration-500 bg-alabaster/95 backdrop-blur-md border-b border-travertine">
+        <div class="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 h-20 sm:h-24 flex items-center justify-between">
+            
+            <!-- Nazwa marki -->
+            <a href="../index.html" class="font-serif text-2xl sm:text-3xl tracking-wide text-charcoal hover:opacity-80 transition-opacity">
+                requiem.aeternam
+            </a>
+
+            <!-- Linki nawigacyjne -->
+            <nav class="hidden xl:flex items-center space-x-8 text-xs uppercase tracking-widestCustom text-graphite">
+                <a href="../index.html#filozofia" class="nav-link hover:text-charcoal transition-colors">Pełnomocnictwo</a>
+                <a href="../index.html#zakres" class="nav-link hover:text-charcoal transition-colors">Zakres opieki</a>
+                <a href="../index.html#publikacje" class="nav-link text-charcoal font-medium">Publikacje</a>
+                <a href="../index.html#opinie" class="nav-link hover:text-charcoal transition-colors">Opinie</a>
+                <a href="../index.html#faq" class="nav-link hover:text-charcoal transition-colors">FAQ</a>
+                <a href="../index.html#kontakt" class="nav-link hover:text-charcoal transition-colors">Poufny kontakt</a>
+            </nav>
+
+            <!-- Przycisk powrotu -->
+            <a href="../index.html#publikacje" class="inline-flex items-center gap-2 text-xs uppercase tracking-widestCustom text-graphite hover:text-charcoal transition-colors border border-travertine px-4 py-2 rounded-sm">
+                <span>←</span>
+                <span>Wróć do publikacji</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- 2. ROZCIĄGNIĘTE ZDJĘCIE OKŁADKOWE U GÓRY -->
+    <div class="w-full h-[45vh] sm:h-[60vh] lg:h-[68vh] overflow-hidden bg-travertine border-b border-travertine">
+        <img 
+            src="https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=1800&q=85" 
+            alt="Naturalny kamień i minimalistyczna architektura"
+            class="w-full h-full object-cover object-center"
+        >
+    </div>
+
+    <!-- 3. TREŚĆ PUBLIKACJI -->
+    <article class="py-16 sm:py-24 px-6 sm:px-10 lg:px-16 border-b border-travertine">
+        <div class="max-w-3xl mx-auto">
+            
+            <!-- Metadane nad nagłówkiem -->
+            <div class="flex items-center gap-4 text-xs uppercase tracking-widestCustom text-brass mb-6">
+                <span>Kultura pamięci</span>
+                <span class="text-travertine">•</span>
+                <span class="text-graphite/70">@requiem.aeternam</span>
+            </div>
+
+            <!-- Główny tytuł artykułu -->
+            <h1 class="font-serif text-4xl sm:text-5xl lg:text-[3.2rem] font-normal leading-[1.18] text-charcoal mb-8">
+                Architektura pamięci i estetyka ciszy
+            </h1>
+
+            <!-- Dekoracyjna linia -->
+            <div class="w-16 h-[1px] bg-brass mb-10"></div>
+
+            <!-- Wstęp / Lead -->
+            <p class="font-serif italic text-xl sm:text-2xl text-charcoal/90 leading-relaxed mb-12">
+                Współczesna kultura pożegnania coraz częściej odchodzi od nadmiaru formy na rzecz przestrzeni, w której cisza, światło i szlachetny materiał pozwalają wybrzmieć temu, co najważniejsze — biografii i godności Człowieka.
+            </p>
+
+            <!-- Właściwa treść artykułu -->
+            <div class="space-y-8 text-base sm:text-lg font-light leading-relaxed text-graphite">
+                <p>
+                    Przestrzeń, w której odbywa się ostatnie pożegnanie, wywiera głęboki, choć często nieuświadamiany wpływ na przeżywanie żałoby. Z perspektywy psychologii środowiskowej nadmiar bodźców wizualnych, jaskrawe kontrasty czy schematyczne dekoracje wprowadzają dodatkowe napięcie w chwili, gdy najbliżsi potrzebują przede wszystkim ukojenia i poczucia bezpieczeństwa.
+                </p>
+
+                <h2 class="font-serif text-2xl sm:text-3xl text-charcoal pt-4">
+                    Szlachetność naturalnych materiałów
+                </h2>
+
+                <p>
+                    Wybór naturalnego kamienia, surowego lnu, ciepłego drewna oraz stonowanej palety barw ziemi nie jest jedynie zabiegiem estetycznym. To świadome projektowanie atmosfery spokoju. Materiały, które starzeją się z godnością i niosą w sobie organiczną fakturę, budują pomost między przemijaniem a trwałością pamięci.
+                </p>
+
+                <blockquote class="border-l border-brass pl-6 sm:pl-8 py-2 my-10 font-serif italic text-xl sm:text-2xl text-charcoal">
+                    „Prawdziwy takt w organizacji ceremonii polega na tym, by oprawa nigdy nie przysłaniała osoby, którą żegnamy — lecz dyskretnie tworzyła dla niej ramę pełną szacunku.”
+                </blockquote>
+
+                <h2 class="font-serif text-2xl sm:text-3xl text-charcoal pt-4">
+                    Cisza jako element scenariusza
+                </h2>
+
+                <p>
+                    W naszej praktyce pełnomocniczej traktujemy ciszę na równi z muzyką i słowem. Dobrze zaplanowany harmonogram uroczystości nie zmusza Rodziny do pośpiechu. Pozwala zatrzymać się na moment, spojrzeć na detale florystyczne dobrane zgodnie z upodobaniami Zmarłego i w pełnym skupieniu przeżyć chwilę pożegnania — ze świadomością, że nad każdym aspektem organizacyjnym dyskretnie czuwa dedykowany opiekun.
+                </p>
+            </div>
+
+            <!-- Dolna nawigacja artykułu -->
+            <div class="mt-20 pt-10 border-t border-travertine flex flex-col sm:flex-row items-center justify-between gap-6">
+                <a href="../index.html#publikacje" class="inline-flex items-center gap-3 text-xs uppercase tracking-widestCustom text-charcoal hover:text-brass transition-colors">
+                    <span>←</span>
+                    <span>Powrót do wszystkich publikacji</span>
+                </a>
+                <a href="../index.html#kontakt" class="inline-block bg-charcoal text-alabaster text-xs uppercase tracking-widestCustom px-8 py-4 rounded-sm hover:bg-brass transition-colors duration-500">
+                    Umów poufną rozmowę
+                </a>
+            </div>
+
+        </div>
+    </article>
+
+    <!-- STOPKA (FOOTER) -->
+    <footer class="bg-charcoal text-alabaster/80 py-16 px-6 sm:px-10 lg:px-16">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
+            <div class="text-center sm:text-left">
+                <span class="font-serif text-2xl tracking-wide text-alabaster block mb-1">requiem.aeternam</span>
+                <span class="text-xs font-light tracking-wider text-alabaster/60">
+                    Kancelaria Pełnomocnictwa Funeralnego • Spokój, Dyskrecja, Perfekcja
+                </span>
+            </div>
+            <div class="text-xs font-light text-alabaster/60 text-center sm:text-right">
+                <p>&copy; 2026 requiem.aeternam — Projekt studencki (Psychologia Społeczna Stosowana / Design Thinking).</p>
+                <p class="mt-1">Polityka prywatności i poufności (NDA)</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
