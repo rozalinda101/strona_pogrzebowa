@@ -873,34 +873,64 @@
             renderPublications();
             renderReviews();
 
-            if (typeof __firebase_config !== 'undefined' && __firebase_config) {
-                try {
-                    const firebaseConfig = JSON.parse(__firebase_config);
-                    const app = initializeApp(firebaseConfig);
-                    const auth = getAuth(app);
-                    db = getFirestore(app);
+            async function initStorage() {
+            renderPublications();
+            renderReviews();
 
-                    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                        await signInWithCustomToken(auth, __initial_auth_token);
-                    } else {
-                        await signInAnonymously(auth);
-                    }
-                    currentUser = auth.currentUser;
+            const firebaseConfig = {
+                apiKey: "AIzaSyD4wmDbYRbC_L3sxhbJtsLTdTFPvlTrM5E",
+                authDomain: "zaklad-pogrzebowy.firebaseapp.com",
+                databaseURL: "https://zaklad-pogrzebowy-default-rtdb.europe-west1.firebasedatabase.app",
+                projectId: "zaklad-pogrzebowy",
+                storageBucket: "zaklad-pogrzebowy.firebasestorage.app",
+                messagingSenderId: "304755106748",
+                appId: "1:304755106748:web:31567f501b964c036601b9",
+                measurementId: "G-CCCPER6KML"
+            };
 
-                    if (currentUser) {
-                        useFirestore = true;
-                        // Nasłuchiwanie kolekcji publikacji
-                        const pubRef = collection(db, 'artifacts', appId, 'public', 'data', 'publications');
-                        onSnapshot(pubRef, (snapshot) => {
-                            const cloudPubs = [];
-                            snapshot.forEach(doc => cloudPubs.push({ id: doc.id, ...doc.data() }));
-                            cloudPubs.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
-                            publicationsState = [...cloudPubs, ...defaultPublications];
-                            renderPublications();
-                        }, (err) => {
-                            console.warn("Firestore publications fallback:", err);
-                            loadFromLocalStorage();
-                        });
+            try {
+                const app = initializeApp(firebaseConfig);
+                const auth = getAuth(app);
+                db = getFirestore(app);
+
+                await signInAnonymously(auth);
+                currentUser = auth.currentUser;
+
+                if (currentUser) {
+                    useFirestore = true;
+                    // Nasłuchiwanie kolekcji publikacji
+                    const pubRef = collection(db, 'artifacts', appId, 'public', 'data', 'publications');
+                    onSnapshot(pubRef, (snapshot) => {
+                        const cloudPubs = [];
+                        snapshot.forEach(doc => cloudPubs.push({ id: doc.id, ...doc.data() }));
+                        cloudPubs.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+                        publicationsState = [...cloudPubs, ...defaultPublications];
+                        renderPublications();
+                    }, (err) => {
+                        console.warn("Firestore publications fallback:", err);
+                        loadFromLocalStorage();
+                    });
+
+                    // Nasłuchiwanie kolekcji opinii
+                    const revRef = collection(db, 'artifacts', appId, 'public', 'data', 'reviews');
+                    onSnapshot(revRef, (snapshot) => {
+                        const cloudRevs = [];
+                        snapshot.forEach(doc => cloudRevs.push({ id: doc.id, ...doc.data() }));
+                        cloudRevs.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+                        reviewsState = [...cloudRevs, ...defaultReviews];
+                        renderReviews();
+                    }, (err) => {
+                        console.warn("Firestore reviews fallback:", err);
+                        loadFromLocalStorage();
+                    });
+                    return;
+                }
+            } catch (err) {
+                console.warn("Błąd połączenia z Firebase, przełączam na tryb lokalny:", err);
+            }
+            
+            loadFromLocalStorage();
+        }
 
                         // Nasłuchiwanie kolekcji opinii
                         const revRef = collection(db, 'artifacts', appId, 'public', 'data', 'reviews');
