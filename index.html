@@ -726,43 +726,15 @@
     </footer>
 
     <!-- SKRYPTY: Tłumaczenia PL/EN, Publikacje, Opinie (Firestore + localStorage fallback dla GitHub Pages) -->
+    <!-- SKRYPTY: Opinie (Firestore + localStorage fallback dla GitHub Pages) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { initializeFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-        // 1. DOMYŚLNE DANE STARTOWE (widoczne od razu po otwarciu oraz na GitHub Pages)
-        const defaultPublications = [
-            {
-                id: 'pub-1',
-                category: 'Pełnomocnictwo',
-                date: 'Listopad 2026',
-                title: 'Jedno spotkanie zamiast kilkudziesięciu telefonów',
-                excerpt: 'W chwili straty ostatnią rzeczą, jakiej potrzebuje Rodzina, jest lista obowiązków. Wyjaśniamy, na czym polega model pełnomocnictwa i jak przejmujemy całość przygotowań w ciszy.',
-                image: 'https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=900&q=80'
-            },
-            {
-                id: 'pub-2',
-                category: 'Florystyka i Detal',
-                date: 'Październik 2026',
-                title: 'Quiet luxury w przestrzeni pożegnania',
-                excerpt: 'Szlachetny trawertyn, naturalny len, białe lilie i światło dzienne. Odejście od katalogowego przepychu na rzecz ponadczasowej prostoty, która oddaje hołd biografii Zmarłego.',
-                image: 'https://images.unsplash.com/photo-1508610048659-a06b669e3321?auto=format&fit=crop&w=900&q=80'
-            },
-            {
-                id: 'pub-3',
-                category: 'Dyskrecja i Etykieta',
-                date: 'Wrzesień 2026',
-                title: 'Prywatność jako najwyższy wymiar luksusu',
-                excerpt: 'Dlaczego na naszym profilu nigdy nie znajdą Państwo nekrologów ani relacji z uroczystości? O granicach dobrego smaku i ochronie wizerunku Rodziny.',
-                image: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=900&q=80'
-            }
-        ];
 
         const defaultReviews = [];
 
         // Stan aplikacji w pamięci
-        let publicationsState = [...defaultPublications];
         let reviewsState = [...defaultReviews];
         let useFirestore = false;
         let db = null;
@@ -774,37 +746,6 @@
             const div = document.createElement('div');
             div.textContent = str;
             return div.innerHTML;
-        }
-
-        // Renderowanie sekcji Publikacje
-        function renderPublications() {
-            const grid = document.getElementById('publications-grid');
-            if (!grid) return;
-            grid.innerHTML = publicationsState.map(post => `
-                <article class="bg-alabaster border border-travertine rounded-sm overflow-hidden flex flex-col justify-between transition-all duration-500 hover:border-brass/60 group">
-                    <div>
-                        <div class="aspect-[4/3] overflow-hidden bg-travertine/40">
-                            <img src="${escapeHTML(post.image)}" alt="${escapeHTML(post.title)}" onerror="this.src='https://placehold.co/800x600/EAE5DC/232220?text=requiem.aeternam'" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-                        </div>
-                        <div class="p-8">
-                            <div class="flex items-center justify-between text-[11px] uppercase tracking-widestCustom text-brass mb-3">
-                                <span>${escapeHTML(post.category)}</span>
-                                <span class="text-graphite/60">${escapeHTML(post.date)}</span>
-                            </div>
-                            <h3 class="font-serif text-2xl text-charcoal leading-snug mb-3">
-                                ${escapeHTML(post.title)}
-                            </h3>
-                            <p class="text-sm font-light leading-relaxed text-graphite">
-                                ${escapeHTML(post.excerpt)}
-                            </p>
-                        </div>
-                    </div>
-                    <div class="px-8 pb-6 pt-3 border-t border-travertine/60 flex items-center justify-between text-[11px] tracking-widestCustom uppercase text-graphite/70">
-                        <span>@requiem.aeternam</span>
-                        <span class="text-brass">Quiet Luxury</span>
-                    </div>
-                </article>
-            `).join('');
         }
 
         // Renderowanie sekcji Opinie
@@ -833,21 +774,16 @@
         // Ładowanie z localStorage (dla hostingu statycznego np. GitHub Pages)
         function loadFromLocalStorage() {
             try {
-                const savedPubs = JSON.parse(localStorage.getItem('ra_publications') || '[]');
                 const savedRevs = JSON.parse(localStorage.getItem('ra_reviews') || '[]');
-                publicationsState = [...savedPubs, ...defaultPublications];
                 reviewsState = [...savedRevs, ...defaultReviews];
             } catch (e) {
-                publicationsState = [...defaultPublications];
                 reviewsState = [...defaultReviews];
             }
-            renderPublications();
             renderReviews();
         }
 
-    // Inicjalizacja Firestore z fallbackiem do localStorage
+        // Inicjalizacja Firestore z fallbackiem do localStorage
         async function initStorage() {
-            renderPublications();
             renderReviews();
 
             const firebaseConfig = {
@@ -873,18 +809,6 @@
 
                 if (currentUser) {
                     useFirestore = true;
-                    // Nasłuchiwanie kolekcji publikacji
-                    const pubRef = collection(db, 'artifacts', appId, 'public', 'data', 'publications');
-                    onSnapshot(pubRef, (snapshot) => {
-                        const cloudPubs = [];
-                        snapshot.forEach(doc => cloudPubs.push({ id: doc.id, ...doc.data() }));
-                        cloudPubs.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
-                        publicationsState = [...cloudPubs, ...defaultPublications];
-                        renderPublications();
-                    }, (err) => {
-                        console.warn("Firestore publications fallback:", err);
-                        loadFromLocalStorage();
-                    });
 
                     // Nasłuchiwanie kolekcji opinii
                     const revRef = collection(db, 'artifacts', appId, 'public', 'data', 'reviews');
@@ -906,48 +830,6 @@
             
             loadFromLocalStorage();
         }
-
-        // Obsługa formularza nowej publikacji
-        document.getElementById('new-post-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const title = document.getElementById('post-title').value.trim();
-            const category = document.getElementById('post-category').value;
-            const customImg = document.getElementById('post-custom-img').value.trim();
-            const presetImg = document.getElementById('post-preset-img').value;
-            const excerpt = document.getElementById('post-content').value.trim();
-
-            if (!title || !excerpt) return;
-
-            const newPost = {
-                title,
-                category,
-                excerpt,
-                image: customImg || presetImg,
-                date: new Date().toLocaleDateString('pl-PL', { month: 'long', year: 'numeric' }),
-                createdAt: Date.now()
-            };
-
-            let savedInCloud = false;
-            if (useFirestore && db && currentUser) {
-                try {
-                    await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'publications'), newPost);
-                    savedInCloud = true;
-                } catch (err) {
-                    console.error("Błąd zapisu publikacji w Firestore:", err);
-                }
-            }
-
-            if (!savedInCloud) {
-                const savedPubs = JSON.parse(localStorage.getItem('ra_publications') || '[]');
-                savedPubs.unshift(newPost);
-                localStorage.setItem('ra_publications', JSON.stringify(savedPubs));
-                publicationsState = [newPost, ...publicationsState];
-                renderPublications();
-            }
-
-            e.target.reset();
-            window.togglePostForm();
-        });
 
         // Obsługa formularza nowej opinii / komentarza
         document.getElementById('review-form').addEventListener('submit', async (e) => {
@@ -993,7 +875,6 @@
         // Start magazynu danych
         initStorage();
     </script>
-
     <script>
         // Funkcja otwierania/zamykania formularza publikacji
         window.togglePostForm = function() {
