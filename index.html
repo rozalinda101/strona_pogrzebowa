@@ -868,12 +868,8 @@
             renderReviews();
         }
 
-        // Inicjalizacja Firestore (jeśli środowisko udostępnia konfigurację) z fallbackiem do localStorage
+    // Inicjalizacja Firestore z fallbackiem do localStorage
         async function initStorage() {
-            renderPublications();
-            renderReviews();
-
-            async function initStorage() {
             renderPublications();
             renderReviews();
 
@@ -932,7 +928,6 @@
             loadFromLocalStorage();
         }
 
-                
         // Obsługa formularza nowej publikacji
         document.getElementById('new-post-form').addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -953,13 +948,17 @@
                 createdAt: Date.now()
             };
 
+            let savedInCloud = false;
             if (useFirestore && db && currentUser) {
                 try {
                     await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'publications'), newPost);
+                    savedInCloud = true;
                 } catch (err) {
-                    console.error(err);
+                    console.error("Błąd zapisu publikacji w Firestore:", err);
                 }
-            } else {
+            }
+
+            if (!savedInCloud) {
                 const savedPubs = JSON.parse(localStorage.getItem('ra_publications') || '[]');
                 savedPubs.unshift(newPost);
                 localStorage.setItem('ra_publications', JSON.stringify(savedPubs));
@@ -988,13 +987,17 @@
                 createdAt: Date.now()
             };
 
+            let savedInCloud = false;
             if (useFirestore && db && currentUser) {
                 try {
                     await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'reviews'), newReview);
+                    savedInCloud = true;
                 } catch (err) {
-                    console.error(err);
+                    console.error("Błąd zapisu opinii w Firestore:", err);
                 }
-            } else {
+            }
+
+            if (!savedInCloud) {
                 const savedRevs = JSON.parse(localStorage.getItem('ra_reviews') || '[]');
                 savedRevs.unshift(newReview);
                 localStorage.setItem('ra_reviews', JSON.stringify(savedRevs));
@@ -1010,7 +1013,6 @@
 
         // Start magazynu danych
         initStorage();
-        }
     </script>
 
     <script>
