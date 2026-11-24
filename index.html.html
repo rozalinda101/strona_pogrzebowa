@@ -1,0 +1,1331 @@
+<!DOCTYPE html>
+<html lang="pl" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>requiem.aeternam | Pełnomocnictwo i Indywidualna Oprawa Ceremonii</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Cormorant Garamond (szeryfowy) oraz Plus Jakarta Sans (bezszeryfowy) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Plus+Jakarta+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <!-- Konfiguracja Tailwind z dedykowaną paletą barw Quiet Luxury -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        alabaster: '#F7F5F0',
+                        travertine: '#EAE5DC',
+                        charcoal: '#232220',
+                        graphite: '#4A4843',
+                        brass: '#9E896A',
+                        brassLight: '#B8A588',
+                    },
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    letterSpacing: {
+                        widestCustom: '0.2em',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Subtelne, spokojne animacje oraz dopracowane detale typograficzne */
+        body {
+            background-color: #F7F5F0;
+            color: #232220;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(18px);
+            transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1), transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Płynne rozwijanie akordeonu FAQ */
+        .faq-content {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .faq-item.active .faq-content {
+            grid-template-rows: 1fr;
+        }
+        .faq-inner {
+            overflow: hidden;
+        }
+        .faq-icon {
+            transition: transform 0.4s ease;
+        }
+        .faq-item.active .faq-icon {
+            transform: rotate(45deg);
+        }
+
+        /* Eleganckie podkreślenie linków w nawigacji */
+        .nav-link {
+            position: relative;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: -4px;
+            left: 0;
+            background-color: #9E896A;
+            transition: width 0.35s ease;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="selection:bg-brass/20 selection:text-charcoal overflow-x-hidden">
+
+    <!-- 0. SUBTELNY PASEK INFORMACYJNY (PROJEKT STUDENCKI) -->
+    <div id="academic-banner" class="bg-charcoal text-alabaster/90 text-[11px] sm:text-xs tracking-wide py-2.5 px-4 text-center border-b border-brass/30 relative z-50">
+        <p data-i18n="disclaimer_text">
+            Projekt studencki zrealizowany w ramach zajęć z Psychologii Społecznej Stosowanej. Marka <span class="font-serif italic text-brassLight">requiem.aeternam</span> jest konceptem edukacyjnym.
+        </p>
+    </div>
+
+    <!-- 1. MINIMALISTYCZNA NAWIGACJA -->
+    <header id="navbar" class="sticky top-0 left-0 right-0 z-40 transition-all duration-500 bg-alabaster/95 backdrop-blur-md border-b border-travertine">
+        <div class="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 h-20 sm:h-24 flex items-center justify-between">
+            
+            <!-- Nazwa marki -->
+            <a href="#" class="font-serif text-2xl sm:text-3xl tracking-wide text-charcoal hover:opacity-80 transition-opacity">
+                requiem.aeternam
+            </a>
+
+            <!-- Linki nawigacyjne (Desktop) -->
+            <nav class="hidden xl:flex items-center space-x-8 text-xs uppercase tracking-widestCustom text-graphite">
+                <a href="#filozofia" class="nav-link hover:text-charcoal transition-colors" data-i18n="nav_philosophy">Pełnomocnictwo</a>
+                <a href="#zakres" class="nav-link hover:text-charcoal transition-colors" data-i18n="nav_scope">Zakres opieki</a>
+                <a href="#publikacje" class="nav-link hover:text-charcoal transition-colors" data-i18n="nav_publications">Publikacje</a>
+                <a href="#opinie" class="nav-link hover:text-charcoal transition-colors" data-i18n="nav_reviews">Opinie</a>
+                <a href="#faq" class="nav-link hover:text-charcoal transition-colors" data-i18n="nav_faq">FAQ</a>
+                <a href="#kontakt" class="nav-link hover:text-charcoal transition-colors" data-i18n="nav_contact">Poufny kontakt</a>
+            </nav>
+
+            <!-- Przełącznik języka PL / EN oraz przycisk menu mobilnego -->
+            <div class="flex items-center space-x-5">
+                <div class="flex items-center text-xs tracking-widestCustom border border-travertine rounded-full px-3 py-1.5 bg-alabaster">
+                    <button id="btn-pl" onclick="setLanguage('pl')" class="font-medium text-charcoal transition-colors px-1.5 cursor-pointer">PL</button>
+                    <span class="text-brass/50">|</span>
+                    <button id="btn-en" onclick="setLanguage('en')" class="font-light text-graphite/60 hover:text-charcoal transition-colors px-1.5 cursor-pointer">EN</button>
+                </div>
+
+                <!-- Przycisk menu mobilnego -->
+                <button id="mobile-menu-btn" aria-label="Menu" class="xl:hidden p-2 text-charcoal focus:outline-none">
+                    <svg class="w-6 h-6 stroke-[1.25]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 8h16M4 16h16" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Rozwijane menu mobilne -->
+        <div id="mobile-menu" class="hidden xl:hidden bg-alabaster border-b border-travertine px-6 py-8">
+            <nav class="flex flex-col space-y-5 text-xs uppercase tracking-widestCustom text-graphite text-center">
+                <a href="#filozofia" class="mobile-link py-2 hover:text-charcoal" data-i18n="nav_philosophy">Pełnomocnictwo</a>
+                <a href="#zakres" class="mobile-link py-2 hover:text-charcoal" data-i18n="nav_scope">Zakres opieki</a>
+                <a href="#publikacje" class="mobile-link py-2 hover:text-charcoal" data-i18n="nav_publications">Publikacje</a>
+                <a href="#opinie" class="mobile-link py-2 hover:text-charcoal" data-i18n="nav_reviews">Opinie</a>
+                <a href="#faq" class="mobile-link py-2 hover:text-charcoal" data-i18n="nav_faq">FAQ</a>
+                <a href="#kontakt" class="mobile-link py-2 text-brass font-medium" data-i18n="nav_contact">Poufny kontakt</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 2. SEKCJA HERO -->
+    <section class="relative pt-24 pb-24 sm:pt-36 sm:pb-36 px-6 sm:px-10 lg:px-16 border-b border-travertine">
+        <div class="max-w-5xl mx-auto text-center fade-in-section is-visible">
+            
+            <!-- Subtelna etykieta nad nagłówkiem -->
+            <p class="text-xs uppercase tracking-widestCustom text-brass mb-8" data-i18n="hero_eyebrow">
+                Kancelaria Pełnomocnictwa Funeralnego • Warszawa | Cała Polska
+            </p>
+
+            <!-- Główne hasło przewodnie -->
+            <h1 class="font-serif text-4xl sm:text-5xl lg:text-[3.6rem] font-normal leading-[1.18] text-charcoal mb-10 max-w-4xl mx-auto" data-i18n="hero_title">
+                Przejmujemy cały ciężar organizacji, abyście mogli Państwo w spokoju przeżyć żałobę.
+            </h1>
+
+            <!-- Dekoracyjna cienka linia -->
+            <div class="w-16 h-[1px] bg-brass mx-auto mb-10"></div>
+
+            <!-- Podtytuł podkreślający rolę pełnomocnika -->
+            <p class="text-base sm:text-lg font-light leading-relaxed text-graphite max-w-2xl mx-auto mb-12" data-i18n="hero_subtitle">
+                Nie oferujemy katalogowych pakietów ani szablonowych rozwiązań. Jako Państwa zaufany pełnomocnik powierzamy organizację jednemu dedykowanemu opiekunowi dostępnemu 24/7 — gwarantując absolutną dyskrecję, perfekcję detali i pełne odciążenie Rodziny.
+            </p>
+
+            <!-- Przycisk CTA -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-5">
+                <a href="#kontakt" class="inline-block bg-charcoal text-alabaster text-xs uppercase tracking-widestCustom px-10 py-4 rounded-sm hover:bg-brass transition-colors duration-500" data-i18n="hero_cta">
+                    Umów poufną rozmowę
+                </a>
+                <a href="tel:+48223074910" class="inline-block border border-travertine text-charcoal text-xs uppercase tracking-widestCustom px-8 py-4 rounded-sm hover:border-brass transition-colors duration-500">
+                    24/7: +48 22 307 49 10
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. FILOZOFIA PEŁNOMOCNICTWA (Cechy rdzeniowe: Odpowiedzialny, Dokładny, Subtelny) -->
+    <section id="filozofia" class="py-24 sm:py-36 px-6 sm:px-10 lg:px-16 border-b border-travertine">
+        <div class="max-w-6xl mx-auto fade-in-section">
+            
+            <div class="max-w-2xl mb-20">
+                <p class="text-xs uppercase tracking-widestCustom text-brass mb-4" data-i18n="phil_eyebrow">
+                    Filozofia Pełnomocnictwa
+                </p>
+                <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-charcoal leading-tight mb-6" data-i18n="phil_title">
+                    Więcej niż dom pogrzebowy. Zaufany reprezentant Rodziny.
+                </h2>
+                <p class="text-graphite font-light leading-relaxed" data-i18n="phil_desc">
+                    W chwili straty najbliżsi potrzebują ciszy i przestrzeni, a nie dziesiątek telefonów, urzędowych list kontrolnych czy konieczności koordynowania podwykonawców. Działamy w tle, biorąc na siebie pełną decyzyjność i odpowiedzialność.
+                </p>
+            </div>
+
+            <!-- Trzy filary (cechy rdzeniowe) -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-16 pt-8 border-t border-travertine">
+                
+                <!-- Filar 1: Odpowiedzialny -->
+                <div class="space-y-4">
+                    <span class="font-serif italic text-2xl text-brass block">I. Odpowiedzialny</span>
+                    <h3 class="font-serif text-2xl text-charcoal" data-i18n="pillar1_title">
+                        Pełna reprezentacja i odciążenie
+                    </h3>
+                    <p class="text-sm font-light leading-relaxed text-graphite" data-i18n="pillar1_desc">
+                        Przejmujemy całość formalności prawnych, urzędowych i cmentarnych na mocy pełnomocnictwa. Jeden dedykowany opiekun czuwa nad całym procesem, minimalizując liczbę decyzji, które muszą Państwo podejmować.
+                    </p>
+                </div>
+
+                <!-- Filar 2: Dokładny -->
+                <div class="space-y-4">
+                    <span class="font-serif italic text-2xl text-brass block">II. Dokładny</span>
+                    <h3 class="font-serif text-2xl text-charcoal" data-i18n="pillar2_title">
+                        Perfekcja i autorski scenariusz
+                    </h3>
+                    <p class="text-sm font-light leading-relaxed text-graphite" data-i18n="pillar2_desc">
+                        Każdą ceremonię projektujemy indywidualnie, oddając hołd biografii, wartościom i dorobkowi Zmarłego. Przewidujemy sytuacje nieprzewidziane i dbamy o najdrobniejszy detal estetyczny — bez cienia przypadku.
+                    </p>
+                </div>
+
+                <!-- Filar 3: Subtelny -->
+                <div class="space-y-4">
+                    <span class="font-serif italic text-2xl text-brass block">III. Subtelny</span>
+                    <h3 class="font-serif text-2xl text-charcoal" data-i18n="pillar3_title">
+                        Absolutna dyskrecja i takt
+                    </h3>
+                    <p class="text-sm font-light leading-relaxed text-graphite" data-i18n="pillar3_desc">
+                        Chronimy prywatność i wizerunek Rodziny. Nigdy nie publikujemy nekrologów w mediach społecznościowych ani nie wykorzystujemy nazwisk naszych Klientów w celach promocyjnych. Towarzyszymy z łagodnością i spokojem.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. ZAKRES OPIEKI (BESPOKE) -->
+    <section id="zakres" class="py-24 sm:py-36 px-6 sm:px-10 lg:px-16 bg-travertine/35 border-b border-travertine">
+        <div class="max-w-6xl mx-auto fade-in-section">
+            
+            <div class="text-center max-w-2xl mx-auto mb-20">
+                <p class="text-xs uppercase tracking-widestCustom text-brass mb-4" data-i18n="scope_eyebrow">
+                    Zakres Opieki • Bespoke
+                </p>
+                <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-charcoal mb-6" data-i18n="scope_title">
+                    Kompleksowa troska szyta na miarę
+                </h2>
+                <p class="text-graphite font-light leading-relaxed" data-i18n="scope_desc">
+                    Nie posługujemy się sztywnymi cennikami ani gotowymi pakietami. Zakres naszych działań każdorazowo dostosowujemy do rangi wydarzenia oraz życzeń Rodziny, przedstawiając pełny, przejrzysty kosztorys już podczas pierwszego spotkania.
+                </p>
+            </div>
+
+            <!-- Siatka 4 obszarów opieki -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
+                
+                <!-- Karta 1 -->
+                <div class="bg-alabaster p-8 sm:p-12 border border-travertine rounded-sm transition-colors duration-500 hover:border-brass/60">
+                    <p class="text-xs uppercase tracking-widestCustom text-brass mb-3">01</p>
+                    <h3 class="font-serif text-2xl sm:text-3xl text-charcoal mb-4" data-i18n="card1_title">
+                        Pełnomocnictwo formalne i organizacja
+                    </h3>
+                    <p class="text-sm font-light leading-relaxed text-graphite mb-6" data-i18n="card1_desc">
+                        Reprezentujemy Rodzinę przed urzędami stanu cywilnego, kancelariami parafialnymi, zarządami cmentarzy oraz instytucjami finansowymi.
+                    </p>
+                    <ul class="space-y-2.5 text-xs tracking-wide text-graphite/90 border-t border-travertine pt-5">
+                        <li data-i18n="card1_li1">• Kompletowanie pełnej dokumentacji i aktów zgonu</li>
+                        <li data-i18n="card1_li2">• Rozliczenia bezgotówkowe i przejrzysty kosztorys od 1. dnia</li>
+                        <li data-i18n="card1_li3">• Koordynacja terminów i rezerwacja miejsc pamięci</li>
+                    </ul>
+                </div>
+
+                <!-- Karta 2 -->
+                <div class="bg-alabaster p-8 sm:p-12 border border-travertine rounded-sm transition-colors duration-500 hover:border-brass/60">
+                    <p class="text-xs uppercase tracking-widestCustom text-brass mb-3">02</p>
+                    <h3 class="font-serif text-2xl sm:text-3xl text-charcoal mb-4" data-i18n="card2_title">
+                        Autorska oprawa ceremonii
+                    </h3>
+                    <p class="text-sm font-light leading-relaxed text-graphite mb-6" data-i18n="card2_desc">
+                        Tworzymy spójną, pełną szlachetnej prostoty przestrzeń pożegnania, wolną od kiczu i przypadkowych elementów dekoracyjnych.
+                    </p>
+                    <ul class="space-y-2.5 text-xs tracking-wide text-graphite/90 border-t border-travertine pt-5">
+                        <li data-i18n="card2_li1">• Ceremonie wyznaniowe, świeckie (Mistrz Ceremonii) oraz łączone</li>
+                        <li data-i18n="card2_li2">• Szlachetna florystyka oraz autorskie urny i trumny rzemieślnicze</li>
+                        <li data-i18n="card2_li3">• Kameralna oprawa muzyczna na żywo i profesjonalne nagłośnienie</li>
+                    </ul>
+                </div>
+
+                <!-- Karta 3 -->
+                <div class="bg-alabaster p-8 sm:p-12 border border-travertine rounded-sm transition-colors duration-500 hover:border-brass/60">
+                    <p class="text-xs uppercase tracking-widestCustom text-brass mb-3">03</p>
+                    <h3 class="font-serif text-2xl sm:text-3xl text-charcoal mb-4" data-i18n="card3_title">
+                        Opieka nad Rodziną i Gośćmi
+                    </h3>
+                    <p class="text-sm font-light leading-relaxed text-graphite mb-6" data-i18n="card3_desc">
+                        Dbamy o komfort i bezpieczeństwo bliskich oraz zaproszonych osobistości, zapewniając płynną komunikację i opiekę logistyczną.
+                    </p>
+                    <ul class="space-y-2.5 text-xs tracking-wide text-graphite/90 border-t border-travertine pt-5">
+                        <li data-i18n="card3_li1">• Dwujęzyczna obsługa i koordynacja gości zagranicznych (PL / EN)</li>
+                        <li data-i18n="card3_li2">• Dyskretny transport VIP oraz organizacja kameralnego przyjęcia po ceremonii</li>
+                        <li data-i18n="card3_li3">• Zabezpieczenie na wypadek niepogody (eleganckie baldachimy, osłony)</li>
+                    </ul>
+                </div>
+
+                <!-- Karta 4 -->
+                <div class="bg-alabaster p-8 sm:p-12 border border-travertine rounded-sm transition-colors duration-500 hover:border-brass/60">
+                    <p class="text-xs uppercase tracking-widestCustom text-brass mb-3">04</p>
+                    <h3 class="font-serif text-2xl sm:text-3xl text-charcoal mb-4" data-i18n="card4_title">
+                        Transport międzynarodowy i usługi specjalistyczne
+                    </h3>
+                    <p class="text-sm font-light leading-relaxed text-graphite mb-6" data-i18n="card4_desc">
+                        Realizujemy złożone procedury krajowe i zagraniczne z zachowaniem najwyższych standardów etycznych oraz sanitarnych.
+                    </p>
+                    <ul class="space-y-2.5 text-xs tracking-wide text-graphite/90 border-t border-travertine pt-5">
+                        <li data-i18n="card4_li1">• Sprowadzenie Zmarłego z dowolnego kraju i odprawy konsularne</li>
+                        <li data-i18n="card4_li2">• Tanatokosmetyka i balsamacja wykonywana z najwyższym szacunkiem</li>
+                        <li data-i18n="card4_li3">• Prywatna e-klepsydra oraz szyfrowana transmisja wyłącznie dla zaproszonych</li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. JAK PRACUJEMY — JEDEN SPOKOJNY KROK (Proces) -->
+    <section id="proces" class="py-24 sm:py-36 px-6 sm:px-10 lg:px-16 border-b border-travertine">
+        <div class="max-w-6xl mx-auto fade-in-section">
+            
+            <div class="max-w-2xl mb-20">
+                <p class="text-xs uppercase tracking-widestCustom text-brass mb-4" data-i18n="proc_eyebrow">
+                    Proces Współpracy
+                </p>
+                <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-charcoal leading-tight mb-6" data-i18n="proc_title">
+                    Jeden spokojny krok po Państwa stronie.
+                </h2>
+                <p class="text-graphite font-light leading-relaxed" data-i18n="proc_desc">
+                    Zaprojektowaliśmy nasz proces tak, aby maksymalnie ograniczyć Państwa zaangażowanie czasowe i emocjonalne w kwestie techniczne.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 relative">
+                
+                <!-- Krok 1 -->
+                <div class="border-l border-brass pl-8 py-2">
+                    <span class="text-xs uppercase tracking-widestCustom text-brass block mb-3" data-i18n="step1_label">Krok 01</span>
+                    <h3 class="font-serif text-2xl text-charcoal mb-4" data-i18n="step1_title">
+                        Jedno spotkanie organizacyjne
+                    </h3>
+                    <p class="text-sm font-light leading-relaxed text-graphite" data-i18n="step1_desc">
+                        Spotykamy się w naszej dyskretnej kancelarii lub w Państwa domu. W spokojnej atmosferze poznajemy historię oraz dorobek Zmarłego, wyjaśniamy przebieg ceremonii krok po kroku i przedstawiamy przejrzysty kosztorys bez ukrytych dopłat.
+                    </p>
+                </div>
+
+                <!-- Krok 2 -->
+                <div class="border-l border-travertine pl-8 py-2">
+                    <span class="text-xs uppercase tracking-widestCustom text-brass block mb-3" data-i18n="step2_label">Krok 02</span>
+                    <h3 class="font-serif text-2xl text-charcoal mb-4" data-i18n="step2_title">
+                        Pełne przejęcie obowiązków
+                    </h3>
+                    <p class="text-sm font-light leading-relaxed text-graphite" data-i18n="step2_desc">
+                        Na podstawie udzielonego pełnomocnictwa załatwiamy wszystkie formalności i koordynujemy pracę florystów, muzyków, mistrza ceremonii oraz logistykę gości. Nie angażujemy Państwa w bieżące ustalenia — działamy w ciszy.
+                    </p>
+                </div>
+
+                <!-- Krok 3 -->
+                <div class="border-l border-travertine pl-8 py-2">
+                    <span class="text-xs uppercase tracking-widestCustom text-brass block mb-3" data-i18n="step3_label">Krok 03</span>
+                    <h3 class="font-serif text-2xl text-charcoal mb-4" data-i18n="step3_title">
+                        Godne i spokojne pożegnanie
+                    </h3>
+                    <p class="text-sm font-light leading-relaxed text-graphite" data-i18n="step3_desc">
+                        W dniu uroczystości dedykowany opiekun dyskretnie czuwa nad każdym detalem harmonogramu i opieką nad gośćmi, aby Rodzina mogła w pełnym spokoju oddać hołd Bliskiej Osobie.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 5B. SEKCJA PUBLIKACJE (Dziennik Edytorialowy / Publikacje w stylu Quiet Luxury) -->
+    <section id="publikacje" class="py-24 sm:py-36 px-6 sm:px-10 lg:px-16 bg-travertine/20 border-b border-travertine">
+        <div class="max-w-6xl mx-auto fade-in-section">
+            
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
+                <div class="max-w-2xl">
+                    <p class="text-xs uppercase tracking-widestCustom text-brass mb-4" data-i18n="pub_eyebrow">
+                        Publikacje • @requiem.aeternam
+                    </p>
+                    <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-charcoal leading-tight mb-4" data-i18n="pub_title">
+                        Kultura pożegnania i estetyka ciszy
+                    </h2>
+                    <p class="text-graphite font-light leading-relaxed text-sm sm:text-base" data-i18n="pub_desc">
+                        Nasza przestrzeń komunikacji jest wolna od nekrologów i katalogowych ofert. Dzielimy się refleksją o sztuce godnego pożegnania, architekturze pamięci oraz kulisach naszej pracy pełnomocniczej.
+                    </p>
+                </div>
+
+                <button onclick="togglePostForm()" class="self-start md:self-end inline-flex items-center gap-2.5 border border-charcoal text-charcoal text-xs uppercase tracking-widestCustom px-7 py-3.5 rounded-sm hover:bg-charcoal hover:text-alabaster transition-colors duration-500 cursor-pointer shrink-0">
+                    <span class="text-base leading-none">+</span>
+                    <span data-i18n="pub_add_btn">Dodaj nową publikację</span>
+                </button>
+            </div>
+
+            <!-- Panel dodawania nowej publikacji (rozwijany) -->
+            <div id="post-form-container" class="hidden mb-16 bg-alabaster border border-brass/50 p-8 sm:p-10 rounded-sm shadow-sm">
+                <div class="flex items-center justify-between mb-6 pb-4 border-b border-travertine">
+                    <h3 class="font-serif text-2xl text-charcoal" data-i18n="pub_form_heading">Nowy wpis w dzienniku @requiem.aeternam</h3>
+                    <button onclick="togglePostForm()" class="text-graphite hover:text-charcoal text-xl leading-none cursor-pointer">&times;</button>
+                </div>
+
+                <form id="new-post-form" class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs uppercase tracking-widestCustom text-graphite mb-2" data-i18n="pub_label_title">Tytuł publikacji</label>
+                            <input type="text" id="post-title" required placeholder="np. Architektura spokoju i szlachetny detal" class="w-full bg-travertine/20 border border-travertine px-4 py-3 text-sm text-charcoal focus:outline-none focus:border-brass rounded-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs uppercase tracking-widestCustom text-graphite mb-2" data-i18n="pub_label_tag">Kategoria / Etykieta</label>
+                            <select id="post-category" class="w-full bg-travertine/20 border border-travertine px-4 py-3 text-sm text-charcoal focus:outline-none focus:border-brass rounded-sm">
+                                <option value="Pełnomocnictwo">Pełnomocnictwo</option>
+                                <option value="Florystyka i Detal">Florystyka i Detal</option>
+                                <option value="Kultura Pamięci">Kultura Pamięci</option>
+                                <option value="Dyskrecja i Etykieta">Dyskrecja i Etykieta</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs uppercase tracking-widestCustom text-graphite mb-2" data-i18n="pub_label_preset">Wybierz kadr w estetyce Quiet Luxury</label>
+                            <select id="post-preset-img" class="w-full bg-travertine/20 border border-travertine px-4 py-3 text-sm text-charcoal focus:outline-none focus:border-brass rounded-sm">
+                                <option value="https://images.unsplash.com/photo-1508610048659-a06b669e3321?auto=format&fit=crop&w=900&q=80">Białe lilie i szlachetna florystyka</option>
+                                <option value="https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=900&q=80">Minimalistyczna przestrzeń i światło</option>
+                                <option value="https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=900&q=80">Płócienny scenariusz i odręczne pismo</option>
+                                <option value="https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=900&q=80">Kamień, trawertyn i naturalna forma</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs uppercase tracking-widestCustom text-graphite mb-2" data-i18n="pub_label_url">Lub własny link do zdjęcia (opcjonalnie)</label>
+                            <input type="url" id="post-custom-img" placeholder="https://..." class="w-full bg-travertine/20 border border-travertine px-4 py-3 text-sm text-charcoal focus:outline-none focus:border-brass rounded-sm">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs uppercase tracking-widestCustom text-graphite mb-2" data-i18n="pub_label_body">Treść wpisu</label>
+                        <textarea id="post-content" rows="4" required placeholder="Wpisz treść publikacji zgodną z tonem komunikacji marki..." class="w-full bg-travertine/20 border border-travertine px-4 py-3 text-sm text-charcoal focus:outline-none focus:border-brass rounded-sm"></textarea>
+                    </div>
+
+                    <div class="flex items-center justify-end gap-4">
+                        <button type="button" onclick="togglePostForm()" class="text-xs uppercase tracking-widestCustom text-graphite hover:text-charcoal px-5 py-3 cursor-pointer" data-i18n="btn_cancel">Anuluj</button>
+                        <button type="submit" class="bg-charcoal text-alabaster text-xs uppercase tracking-widestCustom px-8 py-3.5 rounded-sm hover:bg-brass transition-colors cursor-pointer" data-i18n="pub_submit">Opublikuj wpis</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Siatka publikacji (3 kolumny) -->
+            <div id="publications-grid" class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                <!-- Wpisy renderowane dynamicznie przez JavaScript -->
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 5C. ZAKŁADKA OPINIE (Rekomendacje Rodzin + Realna możliwość komentowania) -->
+    <section id="opinie" class="py-24 sm:py-36 px-6 sm:px-10 lg:px-16 border-b border-travertine">
+        <div class="max-w-6xl mx-auto fade-in-section">
+            
+            <div class="max-w-2xl mb-16">
+                <p class="text-xs uppercase tracking-widestCustom text-brass mb-4" data-i18n="rev_eyebrow">
+                    Opinie i Głosy Rodzin
+                </p>
+                <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-charcoal leading-tight mb-6" data-i18n="rev_title">
+                    Zaufanie budowane w ciszy
+                </h2>
+                <p class="text-graphite font-light leading-relaxed" data-i18n="rev_desc">
+                    Z szacunku dla prywatności naszych Klientów publikujemy wyłącznie wypowiedzi przekazane dobrowolnie, z zachowaniem pełnej anonimowości lub inicjałów Rodziny.
+                </p>
+            </div>
+
+            <!-- Lista opinii -->
+            <div id="reviews-list" class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10 mb-20">
+                <!-- Opinie renderowane dynamicznie -->
+            </div>
+
+            <!-- Formularz dodawania nowej opinii / komentarza -->
+            <div class="max-w-3xl mx-auto bg-travertine/30 border border-travertine p-8 sm:p-12 rounded-sm">
+                <p class="text-xs uppercase tracking-widestCustom text-brass mb-2" data-i18n="rev_form_eyebrow">Księga Wpisów</p>
+                <h3 class="font-serif text-2xl sm:text-3xl text-charcoal mb-3" data-i18n="rev_form_title">
+                    Podziel się opinią lub zostaw komentarz
+                </h3>
+                <p class="text-xs font-light text-graphite mb-8" data-i18n="rev_form_sub">
+                    Twój wpis pojawi się natychmiast na stronie w sekcji opinii.
+                </p>
+
+                <form id="review-form" class="space-y-6">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs uppercase tracking-widestCustom text-graphite mb-2" data-i18n="rev_label_author">Imię, inicjały lub podpis</label>
+                            <input type="text" id="rev-author" required placeholder="np. Dr hab. Marek W. lub Rodzina K." class="w-full bg-alabaster border border-travertine px-4 py-3 text-sm text-charcoal focus:outline-none focus:border-brass rounded-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs uppercase tracking-widestCustom text-graphite mb-2" data-i18n="rev_label_context">Kontekst / Miasto (opcjonalnie)</label>
+                            <input type="text" id="rev-context" placeholder="np. Ceremonia w Warszawie, Zurych" class="w-full bg-alabaster border border-travertine px-4 py-3 text-sm text-charcoal focus:outline-none focus:border-brass rounded-sm">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs uppercase tracking-widestCustom text-graphite mb-2" data-i18n="rev_label_text">Treść opinii lub komentarza</label>
+                        <textarea id="rev-text" rows="4" required placeholder="Opisz swoje doświadczenie, refleksję lub zostaw komentarz do projektu..." class="w-full bg-alabaster border border-travertine px-4 py-3 text-sm text-charcoal focus:outline-none focus:border-brass rounded-sm"></textarea>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <span id="storage-status" class="text-[11px] font-light text-graphite/70 italic">
+                            Zapis trwały aktywny
+                        </span>
+                        <button type="submit" class="bg-charcoal text-alabaster text-xs uppercase tracking-widestCustom px-9 py-4 rounded-sm hover:bg-brass transition-colors duration-500 cursor-pointer" data-i18n="rev_submit">
+                            Opublikuj opinię
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Komunikat po dodaniu opinii -->
+                <div id="rev-toast" class="hidden mt-6 p-4 bg-alabaster border border-brass/60 text-xs text-charcoal rounded-sm">
+                    <span data-i18n="rev_toast_msg">Dziękujemy. Twoja opinia została dodana do księgi wpisów.</span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 6. FAQ — RZETELNE ODPOWIEDZI -->
+    <section id="faq" class="py-24 sm:py-36 px-6 sm:px-10 lg:px-16 bg-travertine/25 border-b border-travertine">
+        <div class="max-w-4xl mx-auto fade-in-section">
+            
+            <div class="text-center mb-16">
+                <p class="text-xs uppercase tracking-widestCustom text-brass mb-4" data-i18n="faq_eyebrow">
+                    Rzetelne Informacje
+                </p>
+                <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-charcoal" data-i18n="faq_title">
+                    Najczęściej zadawane pytania
+                </h2>
+            </div>
+
+            <div class="divide-y divide-travertine border-y border-travertine">
+                
+                <!-- Pytanie 1 -->
+                <div class="faq-item py-6">
+                    <button class="faq-btn w-full flex items-center justify-between text-left gap-4 cursor-pointer focus:outline-none">
+                        <span class="font-serif text-xl sm:text-2xl text-charcoal" data-i18n="faq1_q">
+                            W jaki sposób gwarantują Państwo przejrzystość kosztów i brak ukrytych dopłat?
+                        </span>
+                        <span class="faq-icon text-brass text-2xl font-light shrink-0">+</span>
+                    </button>
+                    <div class="faq-content">
+                        <div class="faq-inner">
+                            <p class="pt-4 text-sm font-light leading-relaxed text-graphite" data-i18n="faq1_a">
+                                Już podczas pierwszego spotkania otrzymują Państwo szczegółowe, pisemne zestawienie wszystkich elementów ceremonii wraz z ich dokładnym kosztem. Nie stosujemy niedomówień ani nie kontaktujemy się z Rodziną w dniu pogrzebu w sprawach finansowych. Wszelkie rozliczenia (w tym obsługa zasiłku pogrzebowego) są klarowne i zamknięte przed uroczystością.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pytanie 2 -->
+                <div class="faq-item py-6">
+                    <button class="faq-btn w-full flex items-center justify-between text-left gap-4 cursor-pointer focus:outline-none">
+                        <span class="font-serif text-xl sm:text-2xl text-charcoal" data-i18n="faq2_q">
+                            Jak chroniona jest prywatność Rodziny oraz wizerunek osoby zmarłej?
+                        </span>
+                        <span class="faq-icon text-brass text-2xl font-light shrink-0">+</span>
+                    </button>
+                    <div class="faq-content">
+                        <div class="faq-inner">
+                            <p class="pt-4 text-sm font-light leading-relaxed text-graphite" data-i18n="faq2_a">
+                                Dyskrecja jest fundamentem naszej kancelarii. Nie publikujemy żadnych informacji o prowadzonych ceremoniach, danych osobowych ani zdjęć z uroczystości w mediach społecznościowych. Na życzenie Rodziny podpisujemy umowę o zachowaniu poufności (NDA) oraz organizujemy ceremonie o charakterze zamkniętym, z dyskretną ochroną dostępu.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pytanie 3 -->
+                <div class="faq-item py-6">
+                    <button class="faq-btn w-full flex items-center justify-between text-left gap-4 cursor-pointer focus:outline-none">
+                        <span class="font-serif text-xl sm:text-2xl text-charcoal" data-i18n="faq3_q">
+                            Czy zapewniają Państwo obsługę gości z zagranicy w języku angielskim?
+                        </span>
+                        <span class="faq-icon text-brass text-2xl font-light shrink-0">+</span>
+                    </button>
+                    <div class="faq-content">
+                        <div class="faq-inner">
+                            <p class="pt-4 text-sm font-light leading-relaxed text-graphite" data-i18n="faq3_a">
+                                Tak. Nasi opiekunowie oraz personel obecny podczas uroczystości posługują się biegle językiem angielskim (a na życzenie również niemieckim i francuskim). Koordynujemy odbiór gości z lotniska, zakwaterowanie, dwujęzyczne druki okolicznościowe oraz tłumaczenie przemówień podczas ceremonii.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pytanie 4 -->
+                <div class="faq-item py-6">
+                    <button class="faq-btn w-full flex items-center justify-between text-left gap-4 cursor-pointer focus:outline-none">
+                        <span class="font-serif text-xl sm:text-2xl text-charcoal" data-i18n="faq4_q">
+                            Czy rzeczywiście wystarczy jedno spotkanie, aby zorganizować całą uroczystość?
+                        </span>
+                        <span class="faq-icon text-brass text-2xl font-light shrink-0">+</span>
+                    </button>
+                    <div class="faq-content">
+                        <div class="faq-inner">
+                            <p class="pt-4 text-sm font-light leading-relaxed text-graphite" data-i18n="faq4_a">
+                                Tak. Podczas jednego, dobrze przygotowanego spotkania ustalamy wszystkie kluczowe założenia, wartości oraz życzenia Rodziny. Następnie nasz zespół przejmuje pełną realizację. Pozostajemy oczywiście do Państwa dyspozycji pod jednym bezpośrednim numerem telefonu, gdyby zechcieli Państwo wprowadzić jakąkolwiek zmianę.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. SEKCJA POUFNY KONTAKT & FOOTER -->
+    <section id="kontakt" class="py-24 sm:py-36 px-6 sm:px-10 lg:px-16">
+        <div class="max-w-6xl mx-auto fade-in-section">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-16">
+                
+                <!-- Lewa kolumna: Informacje kontaktowe -->
+                <div class="lg:col-span-5 space-y-8">
+                    <div>
+                        <p class="text-xs uppercase tracking-widestCustom text-brass mb-4" data-i18n="cont_eyebrow">
+                            Poufny Kontakt
+                        </p>
+                        <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-charcoal leading-tight mb-6" data-i18n="cont_title">
+                            Jesteśmy do Państwa dyspozycji o każdej porze.
+                        </h2>
+                        <p class="text-sm font-light leading-relaxed text-graphite" data-i18n="cont_desc">
+                            Pierwsza rozmowa ma charakter wyłącznie informacyjny i odbywa się w atmosferze pełnego spokoju oraz poufności. Możemy spotkać się w naszej kancelarii w Warszawie lub dojechać w dowolne miejsce w Polsce.
+                        </p>
+                    </div>
+
+                    <div class="space-y-6 pt-4 border-t border-travertine text-sm">
+                        <div>
+                            <span class="text-xs uppercase tracking-widestCustom text-brass block mb-1" data-i18n="cont_phone_label">Całodobowa linia dedykowanego opiekuna (24/7)</span>
+                            <a href="tel:+48223074910" class="font-serif text-2xl text-charcoal hover:text-brass transition-colors">
+                                +48 22 307 49 10
+                            </a>
+                        </div>
+                        <div>
+                            <span class="text-xs uppercase tracking-widestCustom text-brass block mb-1" data-i18n="cont_mail_label">Korespondencja poufna</span>
+                            <a href="mailto:kancelaria@requiemaeternam.pl" class="text-charcoal hover:text-brass transition-colors font-light">
+                                kancelaria@requiemaeternam.pl
+                            </a>
+                        </div>
+                        <div>
+                            <span class="text-xs uppercase tracking-widestCustom text-brass block mb-1" data-i18n="cont_loc_label">Lokalizacja i zasięg</span>
+                            <p class="text-graphite font-light" data-i18n="cont_loc_val">
+                                ul. Mokotowska 49, Warszawa • Realizacja ceremonii na terenie całej Polski oraz Europy
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Prawa kolumna: Elegancki formularz zamówienia poufnej rozmowy -->
+                <div class="lg:col-span-7 bg-travertine/30 border border-travertine p-8 sm:p-12 rounded-sm">
+                    <h3 class="font-serif text-2xl sm:text-3xl text-charcoal mb-2" data-i18n="form_title">
+                        Zamów poufną rozmowę z opiekunem
+                    </h3>
+                    <p class="text-xs font-light text-graphite mb-8" data-i18n="form_subtitle">
+                        Wypełnienie formularza nie wiąże się z żadnym zobowiązaniem. Oddzwonimy dyskretnie we wskazanym czasie.
+                    </p>
+
+                    <form id="contact-form" class="space-y-6">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-xs uppercase tracking-widestCustom text-graphite mb-2" data-i18n="form_name">Imię i nazwisko</label>
+                                <input type="text" required placeholder="np. Aleksandra K." class="w-full bg-alabaster border border-travertine px-4 py-3 text-sm text-charcoal focus:outline-none focus:border-brass transition-colors rounded-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs uppercase tracking-widestCustom text-graphite mb-2" data-i18n="form_phone">Numer telefonu</label>
+                                <input type="tel" required placeholder="+48 ..." class="w-full bg-alabaster border border-travertine px-4 py-3 text-sm text-charcoal focus:outline-none focus:border-brass transition-colors rounded-sm">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-xs uppercase tracking-widestCustom text-graphite mb-2" data-i18n="form_lang">Preferowany język rozmowy</label>
+                                <select class="w-full bg-alabaster border border-travertine px-4 py-3 text-sm text-charcoal focus:outline-none focus:border-brass transition-colors rounded-sm">
+                                    <option value="pl">Polski (PL)</option>
+                                    <option value="en">English (EN)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs uppercase tracking-widestCustom text-graphite mb-2" data-i18n="form_time">Preferowany czas kontaktu</label>
+                                <select class="w-full bg-alabaster border border-travertine px-4 py-3 text-sm text-charcoal focus:outline-none focus:border-brass transition-colors rounded-sm">
+                                    <option value="now" data-i18n="opt_now">Pilnie (w ciągu 15 minut)</option>
+                                    <option value="morning" data-i18n="opt_morning">Godziny poranne (8:00 – 12:00)</option>
+                                    <option value="afternoon" data-i18n="opt_afternoon">Godziny popołudniowe (12:00 – 18:00)</option>
+                                    <option value="evening" data-i18n="opt_evening">Godziny wieczorne (18:00 – 22:00)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs uppercase tracking-widestCustom text-graphite mb-2" data-i18n="form_note">Dodatkowe informacje (opcjonalnie)</label>
+                            <textarea rows="3" placeholder="Miejsce spotkania, szczególne życzenia lub pytania..." class="w-full bg-alabaster border border-travertine px-4 py-3 text-sm text-charcoal focus:outline-none focus:border-brass transition-colors rounded-sm"></textarea>
+                        </div>
+
+                        <div class="pt-2">
+                            <button type="submit" class="w-full sm:w-auto bg-charcoal text-alabaster text-xs uppercase tracking-widestCustom px-10 py-4 rounded-sm hover:bg-brass transition-colors duration-500 cursor-pointer" data-i18n="form_submit">
+                                Przekaż zgłoszenie opiekunowi
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- Komunikat potwierdzenia (zamiast alert()) -->
+                    <div id="form-confirmation" class="hidden mt-6 p-6 bg-alabaster border border-brass/50 rounded-sm">
+                        <p class="font-serif text-2xl text-charcoal mb-2" data-i18n="conf_title">
+                            Dziękujemy za zaufanie.
+                        </p>
+                        <p class="text-sm font-light text-graphite leading-relaxed" data-i18n="conf_desc">
+                            Państwa prośba została przekazana bezpośrednio do dedykowanego opiekuna. Skontaktujemy się w pełnej dyskrecji zgodnie z wybranymi preferencjami.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- STOPKA (FOOTER) -->
+    <footer class="bg-charcoal text-alabaster/80 py-16 px-6 sm:px-10 lg:px-16">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
+            <div class="text-center sm:text-left">
+                <span class="font-serif text-2xl tracking-wide text-alabaster block mb-1">requiem.aeternam</span>
+                <span class="text-xs font-light tracking-wider text-alabaster/60" data-i18n="footer_tagline">
+                    Kancelaria Pełnomocnictwa Funeralnego • Spokój, Dyskrecja, Perfekcja
+                </span>
+            </div>
+            <div class="text-xs font-light text-alabaster/60 text-center sm:text-right">
+                <p>&copy; 2026 requiem.aeternam — Projekt studencki (Psychologia Społeczna Stosowana / Design Thinking).</p>
+                <p class="mt-1">Polityka prywatności i poufności (NDA)</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SKRYPTY: Tłumaczenia PL/EN, Publikacje, Opinie (Firestore + localStorage fallback dla GitHub Pages) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // 1. DOMYŚLNE DANE STARTOWE (widoczne od razu po otwarciu oraz na GitHub Pages)
+        const defaultPublications = [
+            {
+                id: 'pub-1',
+                category: 'Pełnomocnictwo',
+                date: 'Listopad 2026',
+                title: 'Jedno spotkanie zamiast kilkudziesięciu telefonów',
+                excerpt: 'W chwili straty ostatnią rzeczą, jakiej potrzebuje Rodzina, jest lista obowiązków. Wyjaśniamy, na czym polega model pełnomocnictwa i jak przejmujemy całość przygotowań w ciszy.',
+                image: 'https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=900&q=80'
+            },
+            {
+                id: 'pub-2',
+                category: 'Florystyka i Detal',
+                date: 'Październik 2026',
+                title: 'Quiet luxury w przestrzeni pożegnania',
+                excerpt: 'Szlachetny trawertyn, naturalny len, białe lilie i światło dzienne. Odejście od katalogowego przepychu na rzecz ponadczasowej prostoty, która oddaje hołd biografii Zmarłego.',
+                image: 'https://images.unsplash.com/photo-1508610048659-a06b669e3321?auto=format&fit=crop&w=900&q=80'
+            },
+            {
+                id: 'pub-3',
+                category: 'Dyskrecja i Etykieta',
+                date: 'Wrzesień 2026',
+                title: 'Prywatność jako najwyższy wymiar luksusu',
+                excerpt: 'Dlaczego na naszym profilu nigdy nie znajdą Państwo nekrologów ani relacji z uroczystości? O granicach dobrego smaku i ochronie wizerunku Rodziny.',
+                image: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=900&q=80'
+            }
+        ];
+
+        const defaultReviews = [
+            {
+                id: 'rev-1',
+                author: 'Aleksandra K. z Rodziną',
+                context: 'Ceremonia w Warszawie',
+                date: 'Październik 2026',
+                text: '„Po śmierci Ojca potrzebowałam pewności, że pożegnanie będzie godne jego dorobku naukowego, a ja będę mogła skupić się wyłącznie na najbliższych. Jedno spotkanie z naszym opiekunem wystarczyło. Wszystko — od oprawy muzycznej po opiekę nad gośćmi z zagranicy — zostało dopracowane z niezwykłym taktem i dyskrecją.”'
+            },
+            {
+                id: 'rev-2',
+                author: 'Prof. Janusz M.',
+                context: 'Kraków / Genewa',
+                date: 'Wrzesień 2026',
+                text: '„Niespotykana na polskim rynku kultura osobista i spokój. Brak nachalnej sprzedaży, przejrzysty kosztorys od pierwszej rozmowy oraz płynna komunikacja w języku angielskim z naszą rodziną ze Szwajcarii. Dziękujemy za odciążenie nas w najtrudniejszych dniach.”'
+            }
+        ];
+
+        // Stan aplikacji w pamięci
+        let publicationsState = [...defaultPublications];
+        let reviewsState = [...defaultReviews];
+        let useFirestore = false;
+        let db = null;
+        let currentUser = null;
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'requiem-aeternam-app';
+
+        // Zabezpieczenie przed XSS przy renderowaniu komentarzy użytkowników
+        function escapeHTML(str) {
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
+        // Renderowanie sekcji Publikacje
+        function renderPublications() {
+            const grid = document.getElementById('publications-grid');
+            if (!grid) return;
+            grid.innerHTML = publicationsState.map(post => `
+                <article class="bg-alabaster border border-travertine rounded-sm overflow-hidden flex flex-col justify-between transition-all duration-500 hover:border-brass/60 group">
+                    <div>
+                        <div class="aspect-[4/3] overflow-hidden bg-travertine/40">
+                            <img src="${escapeHTML(post.image)}" alt="${escapeHTML(post.title)}" onerror="this.src='https://placehold.co/800x600/EAE5DC/232220?text=requiem.aeternam'" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        </div>
+                        <div class="p-8">
+                            <div class="flex items-center justify-between text-[11px] uppercase tracking-widestCustom text-brass mb-3">
+                                <span>${escapeHTML(post.category)}</span>
+                                <span class="text-graphite/60">${escapeHTML(post.date)}</span>
+                            </div>
+                            <h3 class="font-serif text-2xl text-charcoal leading-snug mb-3">
+                                ${escapeHTML(post.title)}
+                            </h3>
+                            <p class="text-sm font-light leading-relaxed text-graphite">
+                                ${escapeHTML(post.excerpt)}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="px-8 pb-6 pt-3 border-t border-travertine/60 flex items-center justify-between text-[11px] tracking-widestCustom uppercase text-graphite/70">
+                        <span>@requiem.aeternam</span>
+                        <span class="text-brass">Quiet Luxury</span>
+                    </div>
+                </article>
+            `).join('');
+        }
+
+        // Renderowanie sekcji Opinie
+        function renderReviews() {
+            const list = document.getElementById('reviews-list');
+            if (!list) return;
+            list.innerHTML = reviewsState.map(rev => `
+                <div class="bg-alabaster border border-travertine p-8 sm:p-10 rounded-sm flex flex-col justify-between transition-colors duration-500 hover:border-brass/50">
+                    <div>
+                        <div class="text-brass font-serif text-3xl leading-none mb-4">“</div>
+                        <p class="font-serif italic text-xl sm:text-2xl text-charcoal leading-relaxed mb-8">
+                            ${escapeHTML(rev.text.replace(/^„|”$/g, ''))}
+                        </p>
+                    </div>
+                    <div class="pt-5 border-t border-travertine flex items-center justify-between gap-4">
+                        <div>
+                            <p class="text-xs uppercase tracking-widestCustom text-charcoal font-medium">${escapeHTML(rev.author)}</p>
+                            ${rev.context ? `<p class="text-xs font-light text-graphite mt-0.5">${escapeHTML(rev.context)}</p>` : ''}
+                        </div>
+                        <span class="text-[11px] font-light text-graphite/60 shrink-0">${escapeHTML(rev.date)}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Ładowanie z localStorage (dla hostingu statycznego np. GitHub Pages)
+        function loadFromLocalStorage() {
+            try {
+                const savedPubs = JSON.parse(localStorage.getItem('ra_publications') || '[]');
+                const savedRevs = JSON.parse(localStorage.getItem('ra_reviews') || '[]');
+                publicationsState = [...savedPubs, ...defaultPublications];
+                reviewsState = [...savedRevs, ...defaultReviews];
+            } catch (e) {
+                publicationsState = [...defaultPublications];
+                reviewsState = [...defaultReviews];
+            }
+            renderPublications();
+            renderReviews();
+        }
+
+        // Inicjalizacja Firestore (jeśli środowisko udostępnia konfigurację) z fallbackiem do localStorage
+        async function initStorage() {
+            renderPublications();
+            renderReviews();
+
+            if (typeof __firebase_config !== 'undefined' && __firebase_config) {
+                try {
+                    const firebaseConfig = JSON.parse(__firebase_config);
+                    const app = initializeApp(firebaseConfig);
+                    const auth = getAuth(app);
+                    db = getFirestore(app);
+
+                    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                        await signInWithCustomToken(auth, __initial_auth_token);
+                    } else {
+                        await signInAnonymously(auth);
+                    }
+                    currentUser = auth.currentUser;
+
+                    if (currentUser) {
+                        useFirestore = true;
+                        // Nasłuchiwanie kolekcji publikacji
+                        const pubRef = collection(db, 'artifacts', appId, 'public', 'data', 'publications');
+                        onSnapshot(pubRef, (snapshot) => {
+                            const cloudPubs = [];
+                            snapshot.forEach(doc => cloudPubs.push({ id: doc.id, ...doc.data() }));
+                            cloudPubs.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+                            publicationsState = [...cloudPubs, ...defaultPublications];
+                            renderPublications();
+                        }, (err) => {
+                            console.warn("Firestore publications fallback:", err);
+                            loadFromLocalStorage();
+                        });
+
+                        // Nasłuchiwanie kolekcji opinii
+                        const revRef = collection(db, 'artifacts', appId, 'public', 'data', 'reviews');
+                        onSnapshot(revRef, (snapshot) => {
+                            const cloudRevs = [];
+                            snapshot.forEach(doc => cloudRevs.push({ id: doc.id, ...doc.data() }));
+                            cloudRevs.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+                            reviewsState = [...cloudRevs, ...defaultReviews];
+                            renderReviews();
+                        }, (err) => {
+                            console.warn("Firestore reviews fallback:", err);
+                            loadFromLocalStorage();
+                        });
+                        return;
+                    }
+                } catch (err) {
+                    console.warn("Uruchomiono tryb lokalny (GitHub Pages):", err);
+                }
+            }
+            loadFromLocalStorage();
+        }
+
+        // Obsługa formularza nowej publikacji
+        document.getElementById('new-post-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const title = document.getElementById('post-title').value.trim();
+            const category = document.getElementById('post-category').value;
+            const customImg = document.getElementById('post-custom-img').value.trim();
+            const presetImg = document.getElementById('post-preset-img').value;
+            const excerpt = document.getElementById('post-content').value.trim();
+
+            if (!title || !excerpt) return;
+
+            const newPost = {
+                title,
+                category,
+                excerpt,
+                image: customImg || presetImg,
+                date: new Date().toLocaleDateString('pl-PL', { month: 'long', year: 'numeric' }),
+                createdAt: Date.now()
+            };
+
+            if (useFirestore && db && currentUser) {
+                try {
+                    await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'publications'), newPost);
+                } catch (err) {
+                    console.error(err);
+                }
+            } else {
+                const savedPubs = JSON.parse(localStorage.getItem('ra_publications') || '[]');
+                savedPubs.unshift(newPost);
+                localStorage.setItem('ra_publications', JSON.stringify(savedPubs));
+                publicationsState = [newPost, ...publicationsState];
+                renderPublications();
+            }
+
+            e.target.reset();
+            window.togglePostForm();
+        });
+
+        // Obsługa formularza nowej opinii / komentarza
+        document.getElementById('review-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const author = document.getElementById('rev-author').value.trim();
+            const context = document.getElementById('rev-context').value.trim();
+            const text = document.getElementById('rev-text').value.trim();
+
+            if (!author || !text) return;
+
+            const newReview = {
+                author,
+                context,
+                text,
+                date: new Date().toLocaleDateString('pl-PL', { day: 'numeric', month: 'long', year: 'numeric' }),
+                createdAt: Date.now()
+            };
+
+            if (useFirestore && db && currentUser) {
+                try {
+                    await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'reviews'), newReview);
+                } catch (err) {
+                    console.error(err);
+                }
+            } else {
+                const savedRevs = JSON.parse(localStorage.getItem('ra_reviews') || '[]');
+                savedRevs.unshift(newReview);
+                localStorage.setItem('ra_reviews', JSON.stringify(savedRevs));
+                reviewsState = [newReview, ...reviewsState];
+                renderReviews();
+            }
+
+            e.target.reset();
+            const toast = document.getElementById('rev-toast');
+            toast.classList.remove('hidden');
+            setTimeout(() => toast.classList.add('hidden'), 5000);
+        });
+
+        // Start magazynu danych
+        initStorage();
+    </script>
+
+    <script>
+        // Funkcja otwierania/zamykania formularza publikacji
+        window.togglePostForm = function() {
+            const box = document.getElementById('post-form-container');
+            box.classList.toggle('hidden');
+        };
+
+        // Słownik tłumaczeń PL / EN
+        const translations = {
+            pl: {
+                disclaimer_text: "Projekt studencki zrealizowany w ramach zajęć z Psychologii Społecznej Stosowanej / Design Thinking. Marka requiem.aeternam jest konceptem edukacyjnym.",
+                nav_philosophy: "Pełnomocnictwo",
+                nav_scope: "Zakres opieki",
+                nav_publications: "Publikacje",
+                nav_reviews: "Opinie",
+                nav_faq: "FAQ",
+                nav_contact: "Poufny kontakt",
+                hero_eyebrow: "Kancelaria Pełnomocnictwa Funeralnego • Warszawa | Cała Polska",
+                hero_title: "Przejmujemy cały ciężar organizacji, abyście mogli Państwo w spokoju przeżyć żałobę.",
+                hero_subtitle: "Nie oferujemy katalogowych pakietów ani szablonowych rozwiązań. Jako Państwa zaufany pełnomocnik powierzamy organizację jednemu dedykowanemu opiekunowi dostępnemu 24/7 — gwarantując absolutną dyskrecję, perfekcję detali i pełne odciążenie Rodziny.",
+                hero_cta: "Umów poufną rozmowę",
+                phil_eyebrow: "Filozofia Pełnomocnictwa",
+                phil_title: "Więcej niż dom pogrzebowy. Zaufany reprezentant Rodziny.",
+                phil_desc: "W chwili straty najbliżsi potrzebują ciszy i przestrzeni, a nie dziesiątek telefonów, urzędowych list kontrolnych czy konieczności koordynowania podwykonawców. Działamy w tle, biorąc na siebie pełną decyzyjność i odpowiedzialność.",
+                pillar1_title: "Pełna reprezentacja i odciążenie",
+                pillar1_desc: "Przejmujemy całość formalności prawnych, urzędowych i cmentarnych na mocy pełnomocnictwa. Jeden dedykowany opiekun czuwa nad całym procesem, minimalizując liczbę decyzji, które muszą Państwo podejmować.",
+                pillar2_title: "Perfekcja i autorski scenariusz",
+                pillar2_desc: "Każdą ceremonię projektujemy indywidualnie, oddając hołd biografii, wartościom i dorobkowi Zmarłego. Przewidujemy sytuacje nieprzewidziane i dbamy o najdrobniejszy detal estetyczny — bez cienia przypadku.",
+                pillar3_title: "Absolutna dyskrecja i takt",
+                pillar3_desc: "Chronimy prywatność i wizerunek Rodziny. Nigdy nie publikujemy nekrologów w mediach społecznościowych ani nie wykorzystujemy nazwisk naszych Klientów w celach promocyjnych. Towarzyszymy z łagodnością i spokojem.",
+                scope_eyebrow: "Zakres Opieki • Bespoke",
+                scope_title: "Kompleksowa troska szyta na miarę",
+                scope_desc: "Nie posługujemy się sztywnymi cennikami ani gotowymi pakietami. Zakres naszych działań każdorazowo dostosowujemy do rangi wydarzenia oraz życzeń Rodziny, przedstawiając pełny, przejrzysty kosztorys już podczas pierwszego spotkania.",
+                card1_title: "Pełnomocnictwo formalne i organizacja",
+                card1_desc: "Reprezentujemy Rodzinę przed urzędami stanu cywilnego, kancelariami parafialnymi, zarządami cmentarzy oraz instytucjami finansowymi.",
+                card1_li1: "• Kompletowanie pełnej dokumentacji i aktów zgonu",
+                card1_li2: "• Rozliczenia bezgotówkowe i przejrzysty kosztorys od 1. dnia",
+                card1_li3: "• Koordynacja terminów i rezerwacja miejsc pamięci",
+                card2_title: "Autorska oprawa ceremonii",
+                card2_desc: "Tworzymy spójną, pełną szlachetnej prostoty przestrzeń pożegnania, wolną od kiczu i przypadkowych elementów dekoracyjnych.",
+                card2_li1: "• Ceremonie wyznaniowe, świeckie (Mistrz Ceremonii) oraz łączone",
+                card2_li2: "• Szlachetna florystyka oraz autorskie urny i trumny rzemieślnicze",
+                card2_li3: "• Kameralna oprawa muzyczna na żywo i profesjonalne nagłośnienie",
+                card3_title: "Opieka nad Rodziną i Gośćmi",
+                card3_desc: "Dbamy o komfort i bezpieczeństwo bliskich oraz zaproszonych osobistości, zapewniając płynną komunikację i opiekę logistyczną.",
+                card3_li1: "• Dwujęzyczna obsługa i koordynacja gości zagranicznych (PL / EN)",
+                card3_li2: "• Dyskretny transport VIP oraz organizacja kameralnego przyjęcia po ceremonii",
+                card3_li3: "• Zabezpieczenie na wypadek niepogody (eleganckie baldachimy, osłony)",
+                card4_title: "Transport międzynarodowy i usługi specjalistyczne",
+                card4_desc: "Realizujemy złożone procedury krajowe i zagraniczne z zachowaniem najwyższych standardów etycznych oraz sanitarnych.",
+                card4_li1: "• Sprowadzenie Zmarłego z dowolnego kraju i odprawy konsularne",
+                card4_li2: "• Tanatokosmetyka i balsamacja wykonywana z najwyższym szacunkiem",
+                card4_li3: "• Prywatna e-klepsydra oraz szyfrowana transmisja wyłącznie dla zaproszonych",
+                proc_eyebrow: "Proces Współpracy",
+                proc_title: "Jeden spokojny krok po Państwa stronie.",
+                proc_desc: "Zaprojektowaliśmy nasz proces tak, aby maksymalnie ograniczyć Państwa zaangażowanie czasowe i emocjonalne w kwestie techniczne.",
+                step1_label: "Krok 01",
+                step1_title: "Jedno spotkanie organizacyjne",
+                step1_desc: "Spotykamy się w naszej dyskretnej kancelarii lub w Państwa domu. W spokojnej atmosferze poznajemy historię oraz dorobek Zmarłego, wyjaśniamy przebieg ceremonii krok po kroku i przedstawiamy przejrzysty kosztorys bez ukrytych dopłat.",
+                step2_label: "Krok 02",
+                step2_title: "Pełne przejęcie obowiązków",
+                step2_desc: "Na podstawie udzielonego pełnomocnictwa załatwiamy wszystkie formalności i koordynujemy pracę florystów, muzyków, mistrza ceremonii oraz logistykę gości. Nie angażujemy Państwa w bieżące ustalenia — działamy w ciszy.",
+                step3_label: "Krok 03",
+                step3_title: "Godne i spokojne pożegnanie",
+                step3_desc: "W dniu uroczystości dedykowany opiekun dyskretnie czuwa nad każdym detalem harmonogramu i opieką nad gośćmi, aby Rodzina mogła w pełnym spokoju oddać hołd Bliskiej Osobie.",
+                pub_eyebrow: "Publikacje • @requiem.aeternam",
+                pub_title: "Kultura pożegnania i estetyka ciszy",
+                pub_desc: "Nasza przestrzeń komunikacji jest wolna od nekrologów i katalogowych ofert. Dzielimy się refleksją o sztuce godnego pożegnania, architekturze pamięci oraz kulisach naszej pracy pełnomocniczej.",
+                pub_add_btn: "Dodaj nową publikację",
+                pub_form_heading: "Nowy wpis w dzienniku @requiem.aeternam",
+                pub_label_title: "Tytuł publikacji",
+                pub_label_tag: "Kategoria / Etykieta",
+                pub_label_preset: "Wybierz kadr w estetyce Quiet Luxury",
+                pub_label_url: "Lub własny link do zdjęcia (opcjonalnie)",
+                pub_label_body: "Treść wpisu",
+                btn_cancel: "Anuluj",
+                pub_submit: "Opublikuj wpis",
+                rev_eyebrow: "Opinie i Głosy Rodzin",
+                rev_title: "Zaufanie budowane w ciszy",
+                rev_desc: "Z szacunku dla prywatności naszych Klientów publikujemy wyłącznie wypowiedzi przekazane dobrowolnie, z zachowaniem pełnej anonimowości lub inicjałów Rodziny.",
+                rev_form_eyebrow: "Księga Wpisów",
+                rev_form_title: "Podziel się opinią lub zostaw komentarz",
+                rev_form_sub: "Twój wpis pojawi się natychmiast na stronie w sekcji opinii.",
+                rev_label_author: "Imię, inicjały lub podpis",
+                rev_label_context: "Kontekst / Miasto (opcjonalnie)",
+                rev_label_text: "Treść opinii lub komentarza",
+                rev_submit: "Opublikuj opinię",
+                rev_toast_msg: "Dziękujemy. Twoja opinia została dodana do księgi wpisów.",
+                faq_eyebrow: "Rzetelne Informacje",
+                faq_title: "Najczęściej zadawane pytania",
+                faq1_q: "W jaki sposób gwarantują Państwo przejrzystość kosztów i brak ukrytych dopłat?",
+                faq1_a: "Już podczas pierwszego spotkania otrzymują Państwo szczegółowe, pisemne zestawienie wszystkich elementów ceremonii wraz z ich dokładnym kosztem. Nie stosujemy niedomówień ani nie kontaktujemy się z Rodziną w dniu pogrzebu w sprawach finansowych.",
+                faq2_q: "Jak chroniona jest prywatność Rodziny oraz wizerunek osoby zmarłej?",
+                faq2_a: "Dyskrecja jest fundamentem naszej kancelarii. Nie publikujemy żadnych informacji o prowadzonych ceremoniach, danych osobowych ani zdjęć z uroczystości w mediach społecznościowych. Na życzenie Rodziny podpisujemy umowę o zachowaniu poufności (NDA).",
+                faq3_q: "Czy zapewniają Państwo obsługę gości z zagranicy w języku angielskim?",
+                faq3_a: "Tak. Nasi opiekunowie oraz personel obecny podczas uroczystości posługują się biegle językiem angielskim. Koordynujemy odbiór gości z lotniska, zakwaterowanie, dwujęzyczne druki okolicznościowe oraz tłumaczenie przemówień.",
+                faq4_q: "Czy rzeczywiście wystarczy jedno spotkanie, aby zorganizować całą uroczystość?",
+                faq4_a: "Tak. Podczas jednego, dobrze przygotowanego spotkania ustalamy wszystkie kluczowe założenia, wartości oraz życzenia Rodziny. Następnie nasz zespół przejmuje pełną realizację, pozostając pod jednym bezpośrednim numerem telefonu.",
+                cont_eyebrow: "Poufny Kontakt",
+                cont_title: "Jesteśmy do Państwa dyspozycji o każdej porze.",
+                cont_desc: "Pierwsza rozmowa ma charakter wyłącznie informacyjny i odbywa się w atmosferze pełnego spokoju oraz poufności. Możemy spotkać się w naszej kancelarii w Warszawie lub dojechać w dowolne miejsce w Polsce.",
+                cont_phone_label: "Całodobowa linia dedykowanego opiekuna (24/7)",
+                cont_mail_label: "Korespondencja poufna",
+                cont_loc_label: "Lokalizacja i zasięg",
+                cont_loc_val: "ul. Mokotowska 49, Warszawa • Realizacja ceremonii na terenie całej Polski oraz Europy",
+                form_title: "Zamów poufną rozmowę z opiekunem",
+                form_subtitle: "Wypełnienie formularza nie wiąże się z żadnym zobowiązaniem. Oddzwonimy dyskretnie we wskazanym czasie.",
+                form_name: "Imię i nazwisko",
+                form_phone: "Numer telefonu",
+                form_lang: "Preferowany język rozmowy",
+                form_time: "Preferowany czas kontaktu",
+                opt_now: "Pilnie (w ciągu 15 minut)",
+                opt_morning: "Godziny poranne (8:00 – 12:00)",
+                opt_afternoon: "Godziny popołudniowe (12:00 – 18:00)",
+                opt_evening: "Godziny wieczorne (18:00 – 22:00)",
+                form_note: "Dodatkowe informacje (opcjonalnie)",
+                form_submit: "Przekaż zgłoszenie opiekunowi",
+                conf_title: "Dziękujemy za zaufanie.",
+                conf_desc: "Państwa prośba została przekazana bezpośrednio do dedykowanego opiekuna. Skontaktujemy się w pełnej dyskrecji zgodnie z wybranymi preferencjami.",
+                footer_tagline: "Kancelaria Pełnomocnictwa Funeralnego • Spokój, Dyskrecja, Perfekcja"
+            },
+            en: {
+                disclaimer_text: "Student academic project created for Applied Social Psychology / Design Thinking coursework. The brand requiem.aeternam is an educational concept.",
+                nav_philosophy: "Representation",
+                nav_scope: "Scope of Care",
+                nav_publications: "Publications",
+                nav_reviews: "Reviews",
+                nav_faq: "FAQ",
+                nav_contact: "Confidential Contact",
+                hero_eyebrow: "Bespoke Funeral Representation • Warsaw | Nationwide & Europe",
+                hero_title: "We assume the entire burden of organization, allowing your family to grieve in peace.",
+                hero_subtitle: "We do not offer catalog packages or standardized templates. As your trusted representative, we assign a single dedicated guardian available 24/7 — ensuring absolute discretion, quiet perfection, and complete peace of mind.",
+                hero_cta: "Request a confidential consultation",
+                phil_eyebrow: "Philosophy of Representation",
+                phil_title: "More than a funeral home. A trusted representative for your Family.",
+                phil_desc: "In times of loss, loved ones need stillness and space — not dozens of phone calls, administrative checklists, or vendor coordination. We work quietly behind the scenes, taking full responsibility.",
+                pillar1_title: "Full representation & relief",
+                pillar1_desc: "Acting under formal power of attorney, we handle all legal, municipal, and cemetery procedures. One dedicated guardian oversees every step, minimizing the decisions required from your family.",
+                pillar2_title: "Perfection & bespoke narrative",
+                pillar2_desc: "Every ceremony is individually crafted to honor the biography, values, and legacy of the Deceased. We anticipate unforeseen circumstances and refine every aesthetic detail.",
+                pillar3_title: "Absolute discretion & tact",
+                pillar3_desc: "We safeguard your family's privacy and reputation. We never publish obituaries on social media or use client names for promotion. We accompany you with gentleness and composure.",
+                scope_eyebrow: "Scope of Care • Bespoke",
+                scope_title: "Comprehensive care tailored to your wishes",
+                scope_desc: "We do not operate with rigid price lists or pre-set tiers. Our services are tailored to the stature of the farewell and your family's wishes, with a transparent estimate presented at our very first meeting.",
+                card1_title: "Legal representation & administration",
+                card1_desc: "We represent the Family before civil registries, religious authorities, cemetery administrations, and financial institutions.",
+                card1_li1: "• Complete legal documentation and death certificates",
+                card1_li2: "• Transparent cost breakdown from day one with no hidden fees",
+                card1_li3: "• Full scheduling and memorial site coordination",
+                card2_title: "Bespoke ceremony curation",
+                card2_desc: "We design a cohesive, refined atmosphere of farewell, free from ostentation or generic decorative elements.",
+                card2_li1: "• Religious, secular (Master of Ceremonies), or combined services",
+                card2_li2: "• Refined floral artistry and handcrafted caskets or urns",
+                card2_li3: "• Intimate live chamber music and discreet sound engineering",
+                card3_title: "Family & International Guest Concierge",
+                card3_desc: "We ensure seamless comfort, logistics, and communication for close relatives and distinguished international guests.",
+                card3_li1: "• Bilingual coordination and support for international guests (EN / PL)",
+                card3_li2: "• Discreet VIP chauffeur transport and private reception arrangements",
+                card3_li3: "• Weather contingency planning (bespoke canopies and guest comfort)",
+                card4_title: "International repatriation & specialized care",
+                card4_desc: "We manage complex domestic and international transfers upholding the highest ethical and dignified standards.",
+                card4_li1: "• Repatriation from any country and consular clearances",
+                card4_li2: "• Dignified preparation and restorative care with utmost respect",
+                card4_li3: "• Private digital notice & encrypted broadcast strictly for invited guests",
+                proc_eyebrow: "Our Process",
+                proc_title: "One calm step on your part.",
+                proc_desc: "We have structured our workflow to minimize your administrative and emotional involvement in logistical matters.",
+                step1_label: "Step 01",
+                step1_title: "One comprehensive meeting",
+                step1_desc: "We meet at our private Warsaw office or at your residence. In a calm atmosphere, we learn about your loved one's life and legacy, walk through the ceremony, and present a clear, all-inclusive estimate.",
+                step2_label: "Step 02",
+                step2_title: "Complete assumption of duties",
+                step2_desc: "Under your authorization, we handle all paperwork and coordinate florists, musicians, celebrants, and guest logistics. We shield you from daily operational details.",
+                step3_label: "Step 03",
+                step3_title: "A dignified, serene farewell",
+                step3_desc: "On the day of the service, your dedicated guardian discreetly oversees the entire timeline and guest care, allowing your family to focus solely on remembrance.",
+                pub_eyebrow: "Publications • @requiem.aeternam",
+                pub_title: "The culture of farewell & aesthetic of stillness",
+                pub_desc: "Our communication space is free from obituaries and catalog offers. We share reflections on dignified farewells, memory architecture, and our representation practice.",
+                pub_add_btn: "Add new publication",
+                pub_form_heading: "New journal entry @requiem.aeternam",
+                pub_label_title: "Publication Title",
+                pub_label_tag: "Category / Tag",
+                pub_label_preset: "Choose a Quiet Luxury visual",
+                pub_label_url: "Or paste custom image URL (optional)",
+                pub_label_body: "Entry Text",
+                btn_cancel: "Cancel",
+                pub_submit: "Publish Entry",
+                rev_eyebrow: "Reviews & Family Voices",
+                rev_title: "Trust built in stillness",
+                rev_desc: "Out of respect for our clients' privacy, we publish only voluntary reflections shared with full anonymity or family initials.",
+                rev_form_eyebrow: "Guestbook & Reviews",
+                rev_form_title: "Share a review or leave a comment",
+                rev_form_sub: "Your entry will appear immediately in the reviews section.",
+                rev_label_author: "Name, initials, or signature",
+                rev_label_context: "Context / City (optional)",
+                rev_label_text: "Your review or comment",
+                rev_submit: "Publish Review",
+                rev_toast_msg: "Thank you. Your review has been added to the guestbook.",
+                faq_eyebrow: "Clear Answers",
+                faq_title: "Frequently Asked Questions",
+                faq1_q: "How do you guarantee cost transparency and no hidden surcharges?",
+                faq1_a: "During our initial consultation, you receive a detailed written breakdown of every element of the ceremony. We never leave costs ambiguous and never contact the family regarding financial matters on the day of the service.",
+                faq2_q: "How is our family's privacy and the legacy of the deceased protected?",
+                faq2_a: "Discretion is our cornerstone. We never post client names, notices, or photographs on social media. Upon request, we sign a formal Non-Disclosure Agreement (NDA) and arrange private access control.",
+                faq3_q: "Do you provide English-speaking coordination for international guests?",
+                faq3_a: "Yes. Our guardians and on-site staff are fluent in English (as well as German and French upon request). We coordinate airport transfers, accommodation, bilingual programs, and live speech translation.",
+                faq4_q: "Is a single meeting truly sufficient to organize the entire ceremony?",
+                faq4_a: "Yes. In one thoughtfully structured consultation, we align on all values, details, and wishes. Our team then executes every element while remaining available via one direct line whenever you wish.",
+                cont_eyebrow: "Confidential Contact",
+                cont_title: "At your service at any hour.",
+                cont_desc: "An initial conversation is purely informational and held in complete confidentiality. We welcome you to our private office in Warsaw or can travel to any location in Poland.",
+                cont_phone_label: "24/7 Dedicated Guardian Direct Line",
+                cont_mail_label: "Confidential Correspondence",
+                cont_loc_label: "Location & Reach",
+                cont_loc_val: "Mokotowska 49, Warsaw • Ceremonies arranged across Poland and Europe",
+                form_title: "Request a confidential call",
+                form_subtitle: "Submitting this form carries no obligation. A dedicated guardian will reach out discreetly at your preferred time.",
+                form_name: "Full Name",
+                form_phone: "Telephone Number",
+                form_lang: "Preferred Language",
+                form_time: "Preferred Time of Contact",
+                opt_now: "Urgent (within 15 minutes)",
+                opt_morning: "Morning (8:00 AM – 12:00 PM)",
+                opt_afternoon: "Afternoon (12:00 PM – 6:00 PM)",
+                opt_evening: "Evening (6:00 PM – 10:00 PM)",
+                form_note: "Additional notes (optional)",
+                form_submit: "Send request to guardian",
+                conf_title: "Thank you for your trust.",
+                conf_desc: "Your request has been forwarded directly to a dedicated guardian. We will contact you with utmost discretion according to your preferences.",
+                footer_tagline: "Bespoke Funeral Representation • Peace, Discretion, Perfection"
+            }
+        };
+
+        // Funkcja zmiany języka strony (PL / EN)
+        function setLanguage(lang) {
+            document.documentElement.lang = lang;
+            
+            const btnPl = document.getElementById('btn-pl');
+            const btnEn = document.getElementById('btn-en');
+            if (lang === 'pl') {
+                btnPl.className = 'font-medium text-charcoal transition-colors px-1.5 cursor-pointer';
+                btnEn.className = 'font-light text-graphite/60 hover:text-charcoal transition-colors px-1.5 cursor-pointer';
+            } else {
+                btnEn.className = 'font-medium text-charcoal transition-colors px-1.5 cursor-pointer';
+                btnPl.className = 'font-light text-graphite/60 hover:text-charcoal transition-colors px-1.5 cursor-pointer';
+            }
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    el.textContent = translations[lang][key];
+                }
+            });
+        }
+
+        // Obsługa menu mobilnego
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        document.querySelectorAll('.mobile-link').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // Akordeon FAQ
+        document.querySelectorAll('.faq-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const item = btn.parentElement;
+                const isActive = item.classList.contains('active');
+                
+                // Zamknij inne otwarte pytania dla zachowania porządku
+                document.querySelectorAll('.faq-item').forEach(el => el.classList.remove('active'));
+                
+                if (!isActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+
+        // Elegancka obsługa formularza bez systemowego alert()
+        const contactForm = document.getElementById('contact-form');
+        const formConfirmation = document.getElementById('form-confirmation');
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            contactForm.classList.add('hidden');
+            formConfirmation.classList.remove('hidden');
+        });
+
+        // Subtelna animacja pojawiania się sekcji podczas przewijania
+        const observerOptions = {
+            threshold: 0.12,
+            rootMargin: '0px 0px -40px 0px'
+        };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in-section').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
