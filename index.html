@@ -729,7 +729,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { initializeFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // 1. DOMYŚLNE DANE STARTOWE (widoczne od razu po otwarciu oraz na GitHub Pages)
         const defaultPublications = [
@@ -864,7 +864,9 @@
             try {
                 const app = initializeApp(firebaseConfig);
                 const auth = getAuth(app);
-                db = getFirestore(app);
+                db = initializeFirestore(app, {
+                    experimentalForceLongPolling: true
+                });
 
                 await signInAnonymously(auth);
                 currentUser = auth.currentUser;
