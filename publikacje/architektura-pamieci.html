@@ -73,8 +73,8 @@
         </p>
     </div>
 
-    <!-- 1. MINIMALISTYCZNA NAWIGACJA -->
-    <header class="sticky top-0 left-0 right-0 z-40 transition-all duration-500 bg-alabaster/95 backdrop-blur-md border-b border-travertine">
+    <!-- 1. MINIMALISTYCZNA NAWIGACJA (Identyczna jak na stronie głównej) -->
+    <header id="navbar" class="sticky top-0 left-0 right-0 z-40 transition-all duration-500 bg-alabaster/95 backdrop-blur-md border-b border-travertine">
         <div class="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 h-20 sm:h-24 flex items-center justify-between">
             
             <!-- Nazwa marki -->
@@ -82,21 +82,43 @@
                 requiem.aeternam
             </a>
 
-            <!-- Linki nawigacyjne -->
+            <!-- Linki nawigacyjne (Desktop) -->
             <nav class="hidden xl:flex items-center space-x-8 text-xs uppercase tracking-widestCustom text-graphite">
                 <a href="../index.html#filozofia" class="nav-link hover:text-charcoal transition-colors">Pełnomocnictwo</a>
                 <a href="../index.html#zakres" class="nav-link hover:text-charcoal transition-colors">Zakres opieki</a>
-                <a href="../index.html#publikacje" class="nav-link text-charcoal font-medium">Publikacje</a>
+                <a href="../index.html#publikacje" class="nav-link text-charcoal transition-colors">Publikacje</a>
                 <a href="../index.html#opinie" class="nav-link hover:text-charcoal transition-colors">Opinie</a>
                 <a href="../index.html#faq" class="nav-link hover:text-charcoal transition-colors">FAQ</a>
                 <a href="../index.html#kontakt" class="nav-link hover:text-charcoal transition-colors">Poufny kontakt</a>
             </nav>
 
-            <!-- Przycisk powrotu -->
-            <a href="../index.html#publikacje" class="inline-flex items-center gap-2 text-xs uppercase tracking-widestCustom text-graphite hover:text-charcoal transition-colors border border-travertine px-4 py-2 rounded-sm">
-                <span>←</span>
-                <span>Wróć do publikacji</span>
-            </a>
+            <!-- Przełącznik języka PL / EN oraz przycisk menu mobilnego -->
+            <div class="flex items-center space-x-5">
+                <div class="flex items-center text-xs tracking-widestCustom border border-travertine rounded-full px-3 py-1.5 bg-alabaster">
+                    <span class="font-medium text-charcoal px-1.5">PL</span>
+                    <span class="text-brass/50">|</span>
+                    <a href="../index.html" class="font-light text-graphite/60 hover:text-charcoal transition-colors px-1.5">EN</a>
+                </div>
+
+                <!-- Przycisk menu mobilnego -->
+                <button id="mobile-menu-btn" aria-label="Menu" class="xl:hidden p-2 text-charcoal focus:outline-none">
+                    <svg class="w-6 h-6 stroke-[1.25]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 8h16M4 16h16" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Rozwijane menu mobilne -->
+        <div id="mobile-menu" class="hidden xl:hidden bg-alabaster border-b border-travertine px-6 py-8">
+            <nav class="flex flex-col space-y-5 text-xs uppercase tracking-widestCustom text-graphite text-center">
+                <a href="../index.html#filozofia" class="mobile-link py-2 hover:text-charcoal">Pełnomocnictwo</a>
+                <a href="../index.html#zakres" class="mobile-link py-2 hover:text-charcoal">Zakres opieki</a>
+                <a href="../index.html#publikacje" class="mobile-link py-2 hover:text-charcoal">Publikacje</a>
+                <a href="../index.html#opinie" class="mobile-link py-2 hover:text-charcoal">Opinie</a>
+                <a href="../index.html#faq" class="mobile-link py-2 hover:text-charcoal">FAQ</a>
+                <a href="../index.html#kontakt" class="mobile-link py-2 text-brass font-medium">Poufny kontakt</a>
+            </nav>
         </div>
     </header>
 
@@ -419,5 +441,20 @@
         initStorage();
     </script>
 
+    <script>
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        if (mobileMenuBtn && mobileMenu) {
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+            document.querySelectorAll('.mobile-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+        }
+    </script>
+    
 </body>
 </html>
