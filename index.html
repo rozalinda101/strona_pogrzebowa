@@ -932,27 +932,7 @@
             loadFromLocalStorage();
         }
 
-                        // Nasłuchiwanie kolekcji opinii
-                        const revRef = collection(db, 'artifacts', appId, 'public', 'data', 'reviews');
-                        onSnapshot(revRef, (snapshot) => {
-                            const cloudRevs = [];
-                            snapshot.forEach(doc => cloudRevs.push({ id: doc.id, ...doc.data() }));
-                            cloudRevs.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
-                            reviewsState = [...cloudRevs, ...defaultReviews];
-                            renderReviews();
-                        }, (err) => {
-                            console.warn("Firestore reviews fallback:", err);
-                            loadFromLocalStorage();
-                        });
-                        return;
-                    }
-                } catch (err) {
-                    console.warn("Uruchomiono tryb lokalny (GitHub Pages):", err);
-                }
-            }
-            loadFromLocalStorage();
-        }
-
+                
         // Obsługa formularza nowej publikacji
         document.getElementById('new-post-form').addEventListener('submit', async (e) => {
             e.preventDefault();
